@@ -8,7 +8,7 @@ import gdx.scala.demo.MeshTutorial1;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-//		new LwjglApplication(new GdxScalaDemoGame(), config);
-		new LwjglApplication(new MeshTutorial1(), config);
+		new LwjglApplication(new GdxScalaDemoGame(), config);
+//		new LwjglApplication(new MeshTutorial1(), config);
 	}
 }
