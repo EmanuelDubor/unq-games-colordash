@@ -2,17 +2,24 @@ package gdx.scala.demo
 
 import com.badlogic.gdx.graphics.Color
 
-
-class Player extends Positionable with Colored {
-  override val color = new Color(0xae3333ff)
-
+trait SquaredEntity extends Positionable with Colored with Renderizable {
   w = 40
   h = 40
 
+  def render(renderer: ShaderRenderer): Unit =
+    renderer.drawSquare(x,y, w,h,color)
 }
 
-class Brick extends Positionable with Colored {
+class Player extends SquaredEntity {
+  override val color = new Color(0xb25656ff)
+}
 
+class Brick extends SquaredEntity {
+  override val color = new Color(0x303030ff)
+}
+
+trait Renderizable {
+  def render(renderer:ShaderRenderer)
 }
 
 trait Colored {
@@ -35,4 +42,16 @@ trait Positionable {
   def isPointInside(x: Int, y: Int, positionable: Positionable): Boolean = {
     x >= positionable.x && x <= positionable.x + positionable.w && y >= positionable.y && y <= positionable.y + positionable.h
   }
+
+  def rightOf(other:Positionable): Unit ={
+    x = other.x+other.w+1
+  }
+
+  def leftOf(other:Positionable): Unit ={
+    x = other.x-this.w
+  }
+
 }
+
+
+

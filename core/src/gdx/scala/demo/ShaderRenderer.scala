@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.utils.GdxRuntimeException
 
 
-trait ShaderCapabilities {
+trait ShaderRenderer {
   val POSITION_COMPONENTS: Int = 2
   val COLOR_COMPONENTS: Int = 4
   val NUM_COMPONENTS: Int = POSITION_COMPONENTS + COLOR_COMPONENTS
@@ -112,7 +112,8 @@ trait ShaderCapabilities {
     idx - 1
   }
 
-  def drawEntity(entity:Positionable with Colored): Unit ={
-    drawSquare(entity.x,entity.y, entity.w,entity.h, entity.color)
+  def drawEntity(entity:Renderizable): Unit = {
+    entity.render(this)
+    flush()
   }
 }
