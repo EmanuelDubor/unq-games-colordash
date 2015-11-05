@@ -9,6 +9,8 @@ class GdxScalaDemoGame extends ApplicationAdapter with ShaderCapabilities {
   var shader:ShaderProgram = _
   var mesh: Mesh = _
 
+  var player = new Player()
+
   override def create() {
     camera = new OrthographicCamera()
     mesh = createMesh()
@@ -16,8 +18,9 @@ class GdxScalaDemoGame extends ApplicationAdapter with ShaderCapabilities {
   }
 
   override def render() {
+    Gdx.gl.glClearColor(90/255f, 90/255f, 90/255f, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-    drawSquare(10, 10, 40, 40, Color.RED)
+    drawEntity(player)
     flush()
   }
 

@@ -111,4 +111,8 @@ trait ShaderCapabilities {
     idx += 1
     idx - 1
   }
+
+  def drawEntity(entity:Positionable with Colored): Unit ={
+    drawSquare(entity.x,entity.y, entity.w,entity.h, entity.color)
+  }
 }
