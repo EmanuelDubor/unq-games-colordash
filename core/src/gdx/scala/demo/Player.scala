@@ -1,17 +1,50 @@
 package gdx.scala.demo
 
-import com.badlogic.gdx.graphics.Color
+
+import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
+import com.badlogic.gdx.graphics.{Color, Texture}
+import com.badlogic.gdx.math.{Rectangle, Vector2}
+import com.badlogic.gdx.utils.Pool
 
 trait SquaredEntity extends Positionable with Colored with Renderizable {
-  w = 40
-  h = 40
-
-  def render(renderer: ShaderRenderer): Unit =
-    renderer.drawSquare(x,y, w,h,color)
+  def render(batch:Batch): Unit ={
+  }
 }
 
 class Player extends SquaredEntity {
+  var velocity = new Vector2(5,0)
+  var effectState = EffectNone
+  val playerTexture= TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
+  private var rectPool: Pool[Rectangle] = new Pool[Rectangle]() {
+    protected def newObject: Rectangle = {
+      new Rectangle
+    }
+  }
+  private var tiles: Array[Rectangle] = new Array[Rectangle](20)
+
   override val color = new Color(0xb25656ff)
+
+  rect.width  = 1f
+  rect.height = 1f
+
+  override def render(batch:Batch): Unit ={
+    batch.draw(playerTexture, rect.x, rect.y, rect.width,rect.height)
+  }
+
+  def update(delta:Float): Unit ={
+    rect.x += velocity.x * delta
+    rect.y += velocity.y * delta
+  }
+}
+
+abstract class EffectState {
+  def applyEffect(player:Player)
+}
+
+object EffectNone extends EffectState{
+  override def applyEffect(player: Player): Unit ={
+    //Do nothing
+  }
 }
 
 class Brick extends SquaredEntity {
@@ -19,7 +52,7 @@ class Brick extends SquaredEntity {
 }
 
 trait Renderizable {
-  def render(renderer:ShaderRenderer)
+  def render(spriteBatch: Batch)
 }
 
 trait Colored {
@@ -27,29 +60,12 @@ trait Colored {
 }
 
 trait Positionable {
-  var x = 0
-  var y = 0
-  var w = 0
-  var h = 0
+  val rect = new Rectangle()
 
   def collidesWith(other: Positionable): Boolean = {
-    isPointInside(x,y, other)    ||
-    isPointInside(x+w,y, other)  ||
-    isPointInside(x,y+h, other)  ||
-    isPointInside(x+w,y+h, other)
+    rect.overlaps(other.rect)
   }
 
-  def isPointInside(x: Int, y: Int, positionable: Positionable): Boolean = {
-    x >= positionable.x && x <= positionable.x + positionable.w && y >= positionable.y && y <= positionable.y + positionable.h
-  }
-
-  def rightOf(other:Positionable): Unit ={
-    x = other.x+other.w+1
-  }
-
-  def leftOf(other:Positionable): Unit ={
-    x = other.x-this.w
-  }
 
 }
 

@@ -113,7 +113,7 @@ trait ShaderRenderer {
   }
 
   def drawEntity(entity:Renderizable): Unit = {
-    entity.render(this)
-    flush()
+//    entity.render(this)
+//    flush()
   }
 }
