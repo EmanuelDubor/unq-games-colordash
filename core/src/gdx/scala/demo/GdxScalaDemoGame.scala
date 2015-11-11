@@ -1,11 +1,8 @@
 package gdx.scala.demo
 
-import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.maps.tiled.{TiledMapRenderer, TmxMapLoader, TiledMap}
-import com.badlogic.gdx.maps.tiled.renderers.{OrthogonalTiledMapRenderer, OrthoCachedTiledMapRenderer}
-import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
+import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 
 class GdxScalaDemoGame extends ApplicationAdapter with ShaderRenderer {
   var camera:OrthographicCamera = _
@@ -13,19 +10,15 @@ class GdxScalaDemoGame extends ApplicationAdapter with ShaderRenderer {
   var mesh: Mesh = _
 
   var player:Player = _
-  var levelMap:TiledMap = _
-  var mapRenderer: OrthogonalTiledMapRenderer = _
 
   override def create() {
     camera = new OrthographicCamera()
     mesh = createMesh()
     shader = createMeshShader()
 
-    val unitScale = 1 / 64f
+    TiledWorld.initialize()
 
     player = new Player()
-    levelMap = new TmxMapLoader().load("boxes.tmx")
-    mapRenderer = new OrthogonalTiledMapRenderer(levelMap, unitScale)
     camera.setToOrtho(false, 20,15)
     camera.update()
   }
@@ -36,21 +29,12 @@ class GdxScalaDemoGame extends ApplicationAdapter with ShaderRenderer {
 
     camera.update()
     player.update(Gdx.graphics.getDeltaTime)
+
     camera.position.x = player.rect.x
     camera.position.y = player.rect.y
 
+    TiledWorld.render(player,camera)
 
-    mapRenderer.setView(camera)
-    mapRenderer.render()
-
-    val batch = mapRenderer.getBatch
-    batch.begin()
-    player.render(batch)
-    batch.end()
-//    drawEntity(player)
-//    drawEntity(brick)
-//    drawEntity(brick2)
-//    flush()
   }
 
   override def resize(width:Int, height:Int) {
