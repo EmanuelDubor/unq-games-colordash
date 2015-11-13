@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 
-class GdxScalaDemoGame extends ApplicationAdapter with ShaderRenderer {
+class ColorDashGame extends ApplicationAdapter with ShaderRenderer {
   var camera:OrthographicCamera = _
   var shader:ShaderProgram = _
   var mesh: Mesh = _
