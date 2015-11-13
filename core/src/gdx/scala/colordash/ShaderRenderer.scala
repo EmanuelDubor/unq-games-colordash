@@ -1,11 +1,10 @@
-package gdx.scala.demo
+package gdx.scala.colordash
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.VertexAttributes.Usage
 import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.utils.GdxRuntimeException
-
 
 trait ShaderRenderer {
   val POSITION_COMPONENTS: Int = 2
@@ -75,7 +74,7 @@ trait ShaderRenderer {
     idx = 0
   }
 
-  private[demo] def drawSquare(x: Float, y: Float, width: Float, height: Float, color: Color) {
+  private[colordash] def drawSquare(x: Float, y: Float, width: Float, height: Float, color: Color) {
     if (idx == verts.length) flush()
 
     verts(nextIndex) = x

@@ -1,4 +1,4 @@
-package gdx.scala.demo
+package gdx.scala.colordash
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer

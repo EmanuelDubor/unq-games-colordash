@@ -1,10 +1,10 @@
-package gdx.scala.demo.android;
+package gdx.scala.colordash.android;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import gdx.scala.demo.ColorDashGame;
+import gdx.scala.colordash.ColorDashGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

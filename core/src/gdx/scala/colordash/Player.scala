@@ -1,9 +1,9 @@
-package gdx.scala.demo
-
+package gdx.scala.colordash
 
 import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
 import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
+import gdx.scala.colordash
 
 import scala.collection.JavaConversions._
 
@@ -15,7 +15,7 @@ trait SquaredEntity extends Positionable with Colored with Renderizable {
 class Player extends SquaredEntity {
   val INITIAL_VELOCITY = 5
   var velocity = new Vector2(INITIAL_VELOCITY, 0)
-  var effectState: EffectState = EffectNone
+  var effectState: EffectState = colordash.EffectNone
   var movementState: EffectState = EffectFalling
   val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
   private var tiles: com.badlogic.gdx.utils.Array[Rectangle] = new com.badlogic.gdx.utils.Array[Rectangle]
@@ -36,11 +36,11 @@ class Player extends SquaredEntity {
     processActions()
     effectState.applyEffect(this)
 
-    val futureRect = TiledWorld.rectPool.obtain()
+    val futureRect = colordash.TiledWorld.rectPool.obtain()
     //    velocity.scl(delta)
     futureRect.set(rect.x + velocity.x * delta, rect.y + velocity.y * delta, rect.width, rect.height)
 
-    TiledWorld.findTiles(
+    colordash.TiledWorld.findTiles(
       futureRect.x.toInt,
       rect.y.toInt,
       futureRect.x.toInt + futureRect.width.toInt,
@@ -66,7 +66,7 @@ class Player extends SquaredEntity {
       }
     }
 
-    TiledWorld.findTiles(
+    colordash.TiledWorld.findTiles(
       rect.x.toInt,
       futureRect.y.toInt,
       rect.x.toInt + rect.width.toInt,
@@ -78,7 +78,7 @@ class Player extends SquaredEntity {
         if (tile.overlaps(futureRect)) {
           velocity.y = 0
           futureRect.y = tile.y + futureRect.height
-          movementState = EffectNone
+          movementState = colordash.EffectNone
         }
       }
     }else if(velocity.y == 0){
@@ -96,11 +96,11 @@ class Player extends SquaredEntity {
 
     rect.set(futureRect.x, futureRect.y, futureRect.width, futureRect.height)
 
-    TiledWorld.rectPool.free(futureRect)
+    colordash.TiledWorld.rectPool.free(futureRect)
   }
 
   def processActions(): Unit ={
-    TiledWorld.findTiles(
+    colordash.TiledWorld.findTiles(
       rect.x.toInt,
       rect.y.toInt - rect.height.toInt,
       rect.x.toInt + rect.width.toInt,

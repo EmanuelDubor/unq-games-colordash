@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "gdx.scala.demo.IOSLauncher"
+	mainClassName = "gdx.scala.colordash.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build
