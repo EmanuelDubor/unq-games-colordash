@@ -2,6 +2,7 @@ package gdx.scala.colordash
 
 import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
+import gdx.scala.colordash.entities.Player
 
 class ColorDashGame extends ApplicationAdapter {
   var camera: OrthographicCamera = _
@@ -13,7 +14,7 @@ class ColorDashGame extends ApplicationAdapter {
 
     TiledWorld.initialize()
 
-    player = new Player()
+    player = new entities.Player()
     camera.setToOrtho(false, 20, 15)
     camera.update()
   }

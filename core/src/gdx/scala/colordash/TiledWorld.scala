@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapTileLayer, TmxMapLoader}
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Pool
+import gdx.scala.colordash.entities.Renderizable
 
 object TiledWorld {
 
