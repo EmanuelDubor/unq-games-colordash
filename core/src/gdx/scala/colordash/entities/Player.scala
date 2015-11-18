@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
 import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
+import gdx.scala.colordash.Effects._
 
 import scala.collection.JavaConversions._
 
@@ -31,36 +32,18 @@ class Player extends SquaredEntity {
     processActions()
     effectState.applyEffect(this)
 
-    val futureRect = TiledWorld.rectPool.obtain()
-    //    velocity.scl(delta)
+    implicit val futureRect = TiledWorld.rectPool.obtain()
     futureRect.set(rect.x + velocity.x * delta, rect.y + velocity.y * delta, rect.width, rect.height)
 
-    TiledWorld.findTiles(
-      futureRect.x.toInt,
-      rect.y.toInt,
-      futureRect.x.toInt + futureRect.width.toInt,
-      rect.y.toInt + rect.height.toInt
-      , tiles)
+    collisionXAxis
+    collisionYAxis
 
-    if (velocity.x > 0) {
+    rect.set(futureRect.x, futureRect.y, futureRect.width, futureRect.height)
 
-      for (tile <- tiles) {
-        if (tile.overlaps(futureRect)) {
-          velocity.x = 0
-        }
-      }
-    } else if (velocity.x == 0) {
-      var isColliding = false
-      for (tile <- tiles) {
-        if (tile.overlaps(futureRect)) {
-          isColliding = true
-        }
-      }
-      if (!isColliding) {
-        velocity.x = INITIAL_VELOCITY
-      }
-    }
+    TiledWorld.rectPool.free(futureRect)
+  }
 
+  private def collisionYAxis(implicit futureRect: Rectangle): Unit = {
     TiledWorld.findTiles(
       rect.x.toInt,
       futureRect.y.toInt,
@@ -68,30 +51,31 @@ class Player extends SquaredEntity {
       futureRect.y.toInt + futureRect.height.toInt
       , tiles)
 
-    if (velocity.y < 0) {
-      for (tile <- tiles) {
-        if (tile.overlaps(futureRect)) {
-          velocity.y = 0
-          futureRect.y = tile.y + futureRect.height
-          movementState = EffectNone
-        }
-      }
-    } else if (velocity.y == 0) {
-      var noCollisions = true
-      for (tile: Rectangle <- tiles) {
-        if (tile.overlaps(futureRect)) {
-          noCollisions = false
-        }
-
-      }
-      if (noCollisions) {
-        movementState = EffectFalling
-      }
+    val isColliding = tiles.exists(_.overlaps(futureRect))
+    if (isColliding && velocity.y < 0) {
+      velocity.y = 0
+      val collidingTile = tiles.find(_.overlaps(futureRect)).get
+      futureRect.y = collidingTile.y + futureRect.height
+      movementState = EffectNone
+    } else if (!isColliding && velocity.y == 0) {
+      movementState = EffectFalling
     }
+  }
 
-    rect.set(futureRect.x, futureRect.y, futureRect.width, futureRect.height)
+  private def collisionXAxis(implicit futureRect: Rectangle): Unit = {
+    TiledWorld.findTiles(
+      futureRect.x.toInt,
+      rect.y.toInt,
+      futureRect.x.toInt + futureRect.width.toInt,
+      rect.y.toInt + rect.height.toInt
+      , tiles)
 
-    TiledWorld.rectPool.free(futureRect)
+    val isColliding = tiles.exists(_.overlaps(futureRect))
+    if (isColliding && velocity.x > 0) {
+      velocity.x = 0
+    } else if (!isColliding && velocity.x == 0) {
+      velocity.x = INITIAL_VELOCITY
+    }
   }
 
   def processActions(): Unit = {
@@ -102,15 +86,11 @@ class Player extends SquaredEntity {
       rect.y.toInt + rect.height.toInt
       , tiles, "activator")
 
-    if (tiles.size != 0) {
+    if (tiles.nonEmpty) {
       effectState = EffectJump
     } else {
       effectState = EffectFalling
     }
-  }
-
-  def tilesBelow(position: Rectangle): Unit = {
-
   }
 
 }
