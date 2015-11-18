@@ -9,8 +9,8 @@ import gdx.scala.colordash.Effects._
 import scala.collection.JavaConversions._
 
 class Player extends SquaredEntity {
-  val INITIAL_VELOCITY = 5
-  var velocity = new Vector2(INITIAL_VELOCITY, 0)
+  val BASE_VELOCITY = Constants.INITIAL_VELOCITY
+  var velocity = new Vector2(BASE_VELOCITY, 0)
   var effectState: EffectState = EffectNone
   var movementState: EffectState = EffectFalling
   val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
@@ -35,8 +35,8 @@ class Player extends SquaredEntity {
     implicit val futureRect = TiledWorld.rectPool.obtain()
     futureRect.set(rect.x + velocity.x * delta, rect.y + velocity.y * delta, rect.width, rect.height)
 
-    collisionXAxis
     collisionYAxis
+    collisionXAxis
 
     rect.set(futureRect.x, futureRect.y, futureRect.width, futureRect.height)
 
@@ -46,25 +46,28 @@ class Player extends SquaredEntity {
   private def collisionYAxis(implicit futureRect: Rectangle): Unit = {
     TiledWorld.findTiles(
       rect.x.toInt,
-      futureRect.y.toInt,
+      rect.y.toInt,
       rect.x.toInt + rect.width.toInt,
       futureRect.y.toInt + futureRect.height.toInt
       , tiles)
 
     val isColliding = tiles.exists(_.overlaps(futureRect))
-    if (isColliding && velocity.y < 0) {
-      velocity.y = 0
+    if (isColliding) {
       val collidingTile = tiles.find(_.overlaps(futureRect)).get
-      futureRect.y = collidingTile.y + futureRect.height
-      movementState = EffectNone
-    } else if (!isColliding && velocity.y == 0) {
-      movementState = EffectFalling
+      if (velocity.y < 0) {
+        movementState = EffectNone
+        futureRect.y = collidingTile.y + futureRect.height
+      } else {
+        futureRect.y = collidingTile.y - futureRect.height
+        movementState = EffectFalling
+      }
+      velocity.y = 0
     }
   }
 
   private def collisionXAxis(implicit futureRect: Rectangle): Unit = {
     TiledWorld.findTiles(
-      futureRect.x.toInt,
+      rect.x.toInt,
       rect.y.toInt,
       futureRect.x.toInt + futureRect.width.toInt,
       rect.y.toInt + rect.height.toInt
@@ -72,9 +75,12 @@ class Player extends SquaredEntity {
 
     val isColliding = tiles.exists(_.overlaps(futureRect))
     if (isColliding && velocity.x > 0) {
+      val collidingTile = tiles.find(_.overlaps(futureRect)).get
       velocity.x = 0
+      futureRect.x=collidingTile.x - futureRect.width
+      movementState=EffectNone
     } else if (!isColliding && velocity.x == 0) {
-      velocity.x = INITIAL_VELOCITY
+      velocity.x = BASE_VELOCITY
     }
   }
 
