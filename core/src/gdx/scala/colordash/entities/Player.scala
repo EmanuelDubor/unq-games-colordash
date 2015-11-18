@@ -11,8 +11,8 @@ import scala.collection.JavaConversions._
 class Player extends SquaredEntity {
   val BASE_VELOCITY = Constants.INITIAL_VELOCITY
   var velocity = new Vector2(BASE_VELOCITY, 0)
-  var effectState: EffectState = EffectNone
-  var movementState: EffectState = EffectFalling
+  var effectState: EffectState = None
+  var movementState: MovementState = EffectFalling
   val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
   private var tiles: com.badlogic.gdx.utils.Array[Rectangle] = new com.badlogic.gdx.utils.Array[Rectangle]
 
@@ -29,7 +29,7 @@ class Player extends SquaredEntity {
   def update(delta: Float): Unit = {
 
     movementState.applyEffect(this)
-    processActions()
+    processActions
     effectState.applyEffect(this)
 
     implicit val futureRect = TiledWorld.rectPool.obtain()
@@ -93,9 +93,10 @@ class Player extends SquaredEntity {
       , tiles, "activator")
 
     if (tiles.nonEmpty) {
-      effectState = EffectJump
+//      effectState = EffectJump
+      effectState= Dash
     } else {
-      effectState = EffectFalling
+      effectState = None
     }
   }
 

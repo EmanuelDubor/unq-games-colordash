@@ -6,4 +6,5 @@ object Constants {
   val FRICTION = -0.01f
   val JUMP_X_IMPULSE= 1
   val JUMP_Y_IMPULSE= 2
+  val DASH_X_IMPULSE=2
 }

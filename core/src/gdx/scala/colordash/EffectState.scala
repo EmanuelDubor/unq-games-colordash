@@ -7,8 +7,12 @@ trait EffectState {
   def applyEffect(player: Player):Unit
 }
 
+trait MovementState {
+  def applyEffect(player: Player):Unit
+}
+
 object Effects {
-  object EffectNone extends EffectState {
+  object EffectNone extends MovementState {
     def applyEffect(player: Player): Unit = {
       if (player.velocity.x > player.BASE_VELOCITY) {
         player.velocity.x += FRICTION
@@ -18,16 +22,26 @@ object Effects {
     }
   }
 
-  object EffectFalling extends EffectState {
+  object EffectFalling extends MovementState {
     def applyEffect(player: Player): Unit = {
       player.velocity.add(0, GRAVITY)
     }
   }
 
-  object EffectJump extends EffectState {
+  object Jump extends EffectState {
     def applyEffect(player: Player): Unit = {
       player.velocity.add(JUMP_X_IMPULSE, JUMP_Y_IMPULSE)
     }
+  }
+
+  object Dash extends EffectState {
+    def applyEffect(player: Player): Unit = {
+      player.velocity.add(DASH_X_IMPULSE,0)
+    }
+  }
+
+  object None extends EffectState {
+    override def applyEffect(player: Player): Unit = {}
   }
 }
 
