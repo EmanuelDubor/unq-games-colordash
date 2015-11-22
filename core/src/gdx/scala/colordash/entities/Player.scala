@@ -9,92 +9,53 @@ import gdx.scala.colordash.Effects._
 import scala.collection.JavaConversions._
 
 class Player extends SquaredEntity {
-  val BASE_VELOCITY = Constants.INITIAL_VELOCITY
-  var velocity = new Vector2(BASE_VELOCITY, 0)
-  var effectState: EffectState = None
-  var movementState: MovementState = EffectFalling
-  val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
-  private var tiles: com.badlogic.gdx.utils.Array[Rectangle] = new com.badlogic.gdx.utils.Array[Rectangle]
+  private var physicsComponent: GravityPhysics = NormalGravityPhysics
+  private val tiles: com.badlogic.gdx.utils.Array[Rectangle] = new com.badlogic.gdx.utils.Array[Rectangle]
 
   override val color = new Color(0xb25656ff)
+  val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
 
-  rect.width = 1f
-  rect.height = 1f
-  rect.y = 7f
+  val baseVelocity = Constants.initialVelocity
+  val velocity = new Vector2(baseVelocity, physicsComponent.gravity)
+  var effectState: EffectState = None
+
+  rect.width = Constants.tileWidth
+  rect.height = Constants.tileHeigth
+  rect.x = 1f
+  rect.y = 3.5f
 
   override def render(batch: Batch): Unit = {
-    batch.draw(playerTexture, rect.x, rect.y, rect.width, rect.height)
+    batch.draw(playerTexture, rect.x, rect.y, Constants.tileWidth, Constants.tileHeigth)
   }
 
-  def update(delta: Float): Unit = {
-
-    movementState.applyEffect(this)
+  def update(implicit delta: Float): Unit = {
     processActions
     effectState.applyEffect(this)
 
     implicit val futureRect = TiledWorld.rectPool.obtain()
-    futureRect.set(rect.x + velocity.x * delta, rect.y + velocity.y * delta, rect.width, rect.height)
+    futureRect.set(rect.x + velocity.x * delta, rect.y + velocity.y * delta, Constants.tileWidth, Constants.tileHeigth)
 
-    collisionYAxis
-    collisionXAxis
+    physicsComponent.collideX(this)
+    physicsComponent.collideY(this)
+    physicsComponent.updateVelocityX(this)
+    physicsComponent.updateVelocityY(this)
 
-    rect.set(futureRect.x, futureRect.y, futureRect.width, futureRect.height)
+    rect.set(futureRect.x, futureRect.y, Constants.tileWidth, Constants.tileHeigth)
 
     TiledWorld.rectPool.free(futureRect)
   }
 
-  private def collisionYAxis(implicit futureRect: Rectangle): Unit = {
+  def processActions: Unit = {
     TiledWorld.findTiles(
       rect.x.toInt,
-      rect.y.toInt,
-      rect.x.toInt + rect.width.toInt,
-      futureRect.y.toInt + futureRect.height.toInt
-      , tiles)
-
-    val isColliding = tiles.exists(_.overlaps(futureRect))
-    if (isColliding) {
-      val collidingTile = tiles.find(_.overlaps(futureRect)).get
-      if (velocity.y < 0) {
-        movementState = EffectNone
-        futureRect.y = collidingTile.y + futureRect.height
-      } else {
-        futureRect.y = collidingTile.y - futureRect.height
-        movementState = EffectFalling
-      }
-      velocity.y = 0
-    }
-  }
-
-  private def collisionXAxis(implicit futureRect: Rectangle): Unit = {
-    TiledWorld.findTiles(
-      rect.x.toInt,
-      rect.y.toInt,
-      futureRect.x.toInt + futureRect.width.toInt,
-      rect.y.toInt + rect.height.toInt
-      , tiles)
-
-    val isColliding = tiles.exists(_.overlaps(futureRect))
-    if (isColliding && velocity.x > 0) {
-      val collidingTile = tiles.find(_.overlaps(futureRect)).get
-      velocity.x = 0
-      futureRect.x=collidingTile.x - futureRect.width
-      movementState=EffectNone
-    } else if (!isColliding && velocity.x == 0) {
-      velocity.x = BASE_VELOCITY
-    }
-  }
-
-  def processActions(): Unit = {
-    TiledWorld.findTiles(
-      rect.x.toInt,
-      rect.y.toInt - rect.height.toInt,
-      rect.x.toInt + rect.width.toInt,
-      rect.y.toInt + rect.height.toInt
+      (rect.y - Constants.tileHeigth).toInt,
+      (rect.x + Constants.tileWidth).toInt,
+      (rect.y + Constants.tileHeigth).toInt
       , tiles, "activator")
 
     if (tiles.nonEmpty) {
-//      effectState = EffectJump
-      effectState= Dash
+      //      effectState = Jump
+      //      effectState = Dash
     } else {
       effectState = None
     }

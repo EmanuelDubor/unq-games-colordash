@@ -15,17 +15,17 @@ object TiledWorld {
     }
   }
 
-  var levelMap:TiledMap = _
+  var levelMap: TiledMap = _
   var mapRenderer: OrthogonalTiledMapRenderer = _
-  
-  def initialize(): Unit ={
+
+  def initialize(): Unit = {
     val unitScale = 1 / 64f
 
     levelMap = new TmxMapLoader().load("boxes.tmx")
     mapRenderer = new OrthogonalTiledMapRenderer(levelMap, unitScale)
   }
 
-  def render(renderizable:Renderizable, camera:OrthographicCamera): Unit ={
+  def render(renderizable: Renderizable, camera: OrthographicCamera): Unit = {
     mapRenderer.setView(camera)
     mapRenderer.render()
     val batch = mapRenderer.getBatch
@@ -34,17 +34,27 @@ object TiledWorld {
     batch.end()
   }
 
-  def findTiles(startX: Int, startY: Int, endX: Int, endY: Int, tiles: com.badlogic.gdx.utils.Array[Rectangle], layerName:String="bricks") {
+  def findTiles(startX: Int, startY: Int, endX: Int, endY: Int, tiles: com.badlogic.gdx.utils.Array[Rectangle], layerName: String = "bricks") {
     val layer: TiledMapTileLayer = levelMap.getLayers.get(layerName).asInstanceOf[TiledMapTileLayer]
     rectPool.freeAll(tiles)
     tiles.clear()
-    for( x <- startX to endX; y <- startY to endY){
+    for (x <- startX to endX; y <- startY to endY) {
       val cell: TiledMapTileLayer.Cell = layer.getCell(x, y)
       if (cell != null) {
         val rect: Rectangle = rectPool.obtain
-        rect.set(x, y, 1, 1)
+        rect.set(x, y, Constants.tileWidth, Constants.tileHeigth)
         tiles.add(rect)
       }
     }
   }
+
+  def getTile(x: Int, y: Int, layerName: String = "bricks"): Option[Rectangle] = {
+    val layer: TiledMapTileLayer = levelMap.getLayers.get(layerName).asInstanceOf[TiledMapTileLayer]
+    val cell = layer.getCell(x, y)
+    cell match {
+      case null => None
+      case _ => Some(rectPool.obtain().set(x, y, Constants.tileWidth, Constants.tileHeigth))
+    }
+  }
+
 }
