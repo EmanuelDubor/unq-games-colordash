@@ -23,8 +23,8 @@ class Player extends SquaredEntity {
 
   rect.width = Constants.tileWidth
   rect.height = Constants.tileHeigth
-  rect.x = 1f
-  rect.y = 3.5f
+  rect.x = Constants.startX
+  rect.y = Constants.startY
 
   override def render(batch: Batch): Unit = {
     batch.draw(playerTexture, rect.x, rect.y, Constants.tileWidth, Constants.tileHeigth)
@@ -57,6 +57,7 @@ class Player extends SquaredEntity {
     } else {
       effectState = None
     }
+    Tile.freeAll(tiles)
   }
 
 }

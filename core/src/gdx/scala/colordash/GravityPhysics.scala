@@ -48,7 +48,7 @@ trait GravityPhysics {
       }
       case Some(tile) =>
         velocity.x = 0
-        tile.free
+        Tile.free(tile)
     }
   }
 }

@@ -32,8 +32,7 @@ object TiledWorld {
     for (x <- startX to endX; y <- startY to endY) {
       val cell: TiledMapTileLayer.Cell = layer.getCell(x, y)
       if (cell != null) {
-        val tile: Tile = Tile(x, y)
-        tiles.add(tile)
+        tiles.add(Tile(x, y))
       }
     }
   }
