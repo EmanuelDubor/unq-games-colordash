@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
 import gdx.scala.colordash.Effects._
+import gdx.scala.colordash.tiles.Tile
 
 import scala.collection.JavaConversions._
 
 class Player extends SquaredEntity {
   private var physicsComponent: GravityPhysics = NormalGravityPhysics
-  private val tiles: com.badlogic.gdx.utils.Array[Rectangle] = new com.badlogic.gdx.utils.Array[Rectangle]
+  private implicit val tiles = new com.badlogic.gdx.utils.Array[Tile]
+  private implicit val futureRect=new Rectangle()
 
   override val color = new Color(0xb25656ff)
   val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
@@ -32,7 +34,6 @@ class Player extends SquaredEntity {
     processActions
     effectState.applyEffect(this)
 
-    implicit val futureRect = TiledWorld.rectPool.obtain()
     futureRect.set(rect.x + velocity.x * delta, rect.y + velocity.y * delta, Constants.tileWidth, Constants.tileHeigth)
 
     physicsComponent.collideX(this)
@@ -41,8 +42,6 @@ class Player extends SquaredEntity {
     physicsComponent.updateVelocityY(this)
 
     rect.set(futureRect.x, futureRect.y, Constants.tileWidth, Constants.tileHeigth)
-
-    TiledWorld.rectPool.free(futureRect)
   }
 
   def processActions: Unit = {
@@ -50,8 +49,7 @@ class Player extends SquaredEntity {
       rect.x.toInt,
       (rect.y - Constants.tileHeigth).toInt,
       (rect.x + Constants.tileWidth).toInt,
-      (rect.y + Constants.tileHeigth).toInt
-      , tiles, "activator")
+      (rect.y + Constants.tileHeigth).toInt)
 
     if (tiles.nonEmpty) {
       //      effectState = Jump

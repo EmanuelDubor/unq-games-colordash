@@ -3,18 +3,10 @@ package gdx.scala.colordash
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapTileLayer, TmxMapLoader}
-import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.utils.Pool
 import gdx.scala.colordash.entities.Renderizable
+import gdx.scala.colordash.tiles.Tile
 
 object TiledWorld {
-
-  val rectPool: Pool[Rectangle] = new Pool[Rectangle]() {
-    protected def newObject: Rectangle = {
-      new Rectangle
-    }
-  }
-
   var levelMap: TiledMap = _
   var mapRenderer: OrthogonalTiledMapRenderer = _
 
@@ -34,26 +26,24 @@ object TiledWorld {
     batch.end()
   }
 
-  def findTiles(startX: Int, startY: Int, endX: Int, endY: Int, tiles: com.badlogic.gdx.utils.Array[Rectangle], layerName: String = "bricks") {
-    val layer: TiledMapTileLayer = levelMap.getLayers.get(layerName).asInstanceOf[TiledMapTileLayer]
-    rectPool.freeAll(tiles)
+  def findTiles(startX: Int, startY: Int, endX: Int, endY: Int)(implicit tiles: com.badlogic.gdx.utils.Array[Tile]) {
+    val layer: TiledMapTileLayer = levelMap.getLayers.get("level").asInstanceOf[TiledMapTileLayer]
     tiles.clear()
     for (x <- startX to endX; y <- startY to endY) {
       val cell: TiledMapTileLayer.Cell = layer.getCell(x, y)
       if (cell != null) {
-        val rect: Rectangle = rectPool.obtain
-        rect.set(x, y, Constants.tileWidth, Constants.tileHeigth)
-        tiles.add(rect)
+        val tile: Tile = Tile(x, y)
+        tiles.add(tile)
       }
     }
   }
 
-  def getTile(x: Int, y: Int, layerName: String = "bricks"): Option[Rectangle] = {
-    val layer: TiledMapTileLayer = levelMap.getLayers.get(layerName).asInstanceOf[TiledMapTileLayer]
+  def getTile(x: Int, y: Int): Option[Tile] = {
+    val layer: TiledMapTileLayer = levelMap.getLayers.get("level").asInstanceOf[TiledMapTileLayer]
     val cell = layer.getCell(x, y)
     cell match {
       case null => None
-      case _ => Some(rectPool.obtain().set(x, y, Constants.tileWidth, Constants.tileHeigth))
+      case _ => Some(Tile(x, y))
     }
   }
 

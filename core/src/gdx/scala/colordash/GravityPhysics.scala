@@ -2,11 +2,12 @@ package gdx.scala.colordash
 
 import com.badlogic.gdx.math.Rectangle
 import gdx.scala.colordash.entities.Player
+import gdx.scala.colordash.tiles.Tile
 
 import scala.collection.JavaConversions._
 
 trait GravityPhysics {
-  val tiles = new com.badlogic.gdx.utils.Array[Rectangle]
+  protected implicit val tiles = new com.badlogic.gdx.utils.Array[Tile]
 
   val gravity: Float
 
@@ -22,8 +23,7 @@ trait GravityPhysics {
       rect.x.toInt,
       rect.y.toInt,
       (futureRect.x + Constants.tileWidth).toInt,
-      (rect.y + Constants.tileHeigth).toInt,
-      tiles)
+      (rect.y + Constants.tileHeigth).toInt)
 
     val isColliding = tiles.exists(_.overlaps(futureRect))
     if (isColliding) {
@@ -31,16 +31,14 @@ trait GravityPhysics {
       futureRect.x = collidingTile.x - futureRect.width
     }
 
-    TiledWorld.rectPool.freeAll(tiles)
+    Tile.freeAll(tiles)
   }
 
   def updateVelocityX(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val velocity = player.velocity
+    val futureTile = Tile(futureRect)
 
-    val nextTile = TiledWorld.getTile(
-      (futureRect.x + Constants.tileWidth).toInt,
-      futureRect.y.toInt
-    )
+    val nextTile = futureTile.tileRight
 
     nextTile match {
       case None => if (0 != velocity.x && velocity.x < player.baseVelocity) {
@@ -48,9 +46,9 @@ trait GravityPhysics {
       } else if (player.baseVelocity < velocity.x) {
         velocity.x += Constants.friction * delta
       }
-      case Some(rect) =>
+      case Some(tile) =>
         velocity.x = 0
-        TiledWorld.rectPool.free(rect)
+        tile.free
     }
   }
 }
@@ -77,8 +75,7 @@ object NormalGravityPhysics extends GravityPhysics {
       rect.x.toInt,
       startY.toInt,
       (rect.x + Constants.tileWidth).toInt,
-      endY.toInt,
-      tiles)
+      endY.toInt)
 
     val isColliding = tiles.exists(_.overlaps(futureRect))
     if (isColliding) {
@@ -89,30 +86,24 @@ object NormalGravityPhysics extends GravityPhysics {
         futureRect.y = collidingTile.y + Constants.tileHeigth
       }
     }
-    TiledWorld.rectPool.freeAll(tiles)
+    Tile.freeAll(tiles)
   }
 
   def updateVelocityY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
 
     val velocity = player.velocity
+    val futureTile = Tile(futureRect)
+    val tileUp = futureTile.tileUp
+    val tileDown = futureTile.tileDown
 
-    val topTile = TiledWorld.getTile(
-      futureRect.x.toInt,
-      (futureRect.y + Constants.tileHeigth).toInt
-    )
-
-    val bottomTile = TiledWorld.getTile(
-      futureRect.x.toInt,
-      (futureRect.y - Constants.tileHeigth).toInt
-    )
-
-    (topTile, bottomTile) match {
+    (tileUp, tileDown) match {
       case (Some(_), _) if 0 < velocity.y => velocity.y = 0
       case (_, Some(_)) if velocity.y < 0 => velocity.y = 0
       case (_, _) => velocity.y += gravity * delta
     }
-    topTile.foreach(TiledWorld.rectPool.free(_))
-    bottomTile.foreach(TiledWorld.rectPool.free(_))
+    Tile.free(tileUp)
+    Tile.free(tileDown)
+    Tile.free(futureTile)
   }
 
 }

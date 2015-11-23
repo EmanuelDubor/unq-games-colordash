@@ -1,7 +1,7 @@
 package gdx.scala.colordash
 
 object Constants {
-  val initialVelocity = 5f
+  val initialVelocity = 4f
   val gravity = 15f
   val friction = -1f
 

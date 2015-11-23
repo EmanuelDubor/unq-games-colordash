@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="128" height="15" tilewidth="64" tileheight="64" backgroundcolor="#ffbb92" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="128" height="15" tilewidth="64" tileheight="64" backgroundcolor="#ffbb92" nextobjectid="4">
  <tileset firstgid="1" name="boxes_map" tilewidth="64" tileheight="64" tilecount="20">
   <image source="boxes_map.png" width="320" height="256"/>
+  <tile id="1">
+   <properties>
+    <property name="type" value="spike"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="type" value="activator"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="type" value="brick"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="spikes" width="128" height="15">
+ <layer name="background" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt1LEJADAMA0Hh/YdOkwFSGAL2HahU+wkAAAAAANvV3a8/MFPlrQ8aAn0OfYAAEw==
-  </data>
- </layer>
- <layer name="bricks" width="128" height="15">
-  <data encoding="base64" compression="zlib">
-   eJzt10EKwCAMBMA8wP+/t/eS0GBtITADnox4iIQ1AgAA/rWKBQDAPFmee8p6MuBsnSx/fw/Znv5/r/p7vV2dO2KjPqtjrqp/1UzonGWOEzOEfRdE5wPN
-  </data>
- </layer>
- <layer name="activator" width="128" height="15">
-  <data encoding="base64" compression="zlib">
-   eJzt1rEKACAIBcCgvf//3GhrKYQIQe42QUR4y2sNAABy9ewHAAB4dut0+l49Mq0lkufPzNftsc3jtAhAyARvuwAy
+   eJzt0TkKACAMBMA8IP9/r42tByKKOANbbYrARgAAAAAAwF5Z0+p4V0Z/3xh0nJGXM/tb74Z19v9bAV/1A7U=
   </data>
  </layer>
  <layer name="borderTop" width="128" height="15">
@@ -43,9 +48,14 @@
    eJzt1zEKgDAQBMBUklL8/2PFQgiiJxI5UWfKLIErwrEpBQAg1xBkNW0K4AljkE1pUwBwp223qztnbXZ0h/eI+jz/tvS5qO+daXeBdwbfsf71evYDcM0MlhEAsw==
   </data>
  </layer>
- <layer name="background" width="128" height="15">
+ <layer name="level" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt0TkKACAMBMA8IP9/r42tByKKOANbbYrARgAAAAAAwF5Z0+p4V0Z/3xh0nJGXM/tb74Z19v9bAV/1A7U=
+   eJzt1ssKwCAMRNFAt+L/f24pdBGGTpsiLQTuAfEVdREUIwAAAIB/DSnbWQMAAKCf/KfTsas5nUc/+Q/v8jhMO/fJ//f0Lrqi+XyKqZwRL+KPvWeKmWYtenH5c29CZS36uHtPKnFYswOh5QOq
+  </data>
+ </layer>
+ <layer name="spikes" width="128" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1LEJADAMA0Hh/YdOkwFSGAL2HahU+wkAAAAAANvV3a8/MFPlrQ8aAn0OfYAAEw==
   </data>
  </layer>
 </map>
