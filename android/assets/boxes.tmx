@@ -3,34 +3,49 @@
  <tileset firstgid="1" name="boxes_map" tilewidth="64" tileheight="64" tilecount="20">
   <image source="boxes_map.png" width="320" height="256"/>
  </tileset>
- <layer name="background3" width="128" height="15">
-  <data encoding="base64" compression="zlib">
-   eJzt1KENADAIAEEc+2+Mr2oCCYi7CV59BAAAAAAAzMjtAOCM9wc/f/AQ6CuaJAAd
-  </data>
- </layer>
- <layer name="background2" width="128" height="15">
-  <data encoding="base64" compression="zlib">
-   eJzt1DEKwCAMAEAnHVr//10XhyI6WMQKvYMMJhCEhIQAAAAAADAvff0BthvN/Jm/FvSLtWbH/mlmhzhbbt6j2b69IZzt7kSPW79eAQ15ALQ=
-  </data>
- </layer>
  <layer name="spikes" width="128" height="15">
   <data encoding="base64" compression="zlib">
    eJzt1LEJADAMA0Hh/YdOkwFSGAL2HahU+wkAAAAAANvV3a8/MFPlrQ8aAn0OfYAAEw==
   </data>
  </layer>
- <layer name="background" width="128" height="15">
-  <data encoding="base64" compression="zlib">
-   eJzt190KgCAMhmGPShChuv+LzSAhxiYRpv28D+zEGggT+XQOAACgrSHVaJTvuC+0EQrfYrNdoJcp1WzU0nFfAIDrZLbzyprMeloP3uM4P5nt4r6mZb6c9bQe3Md6e2l1picY6znP5bwnlebPXfAc8izUYs1f+wffcnzrWffDhvn/G/OvbwVOMANz
-  </data>
- </layer>
  <layer name="bricks" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt17EJACAMBEAHcP95XcBgtIgKd5AyEPjm0xoAANTqwQAA8J9Zn1t1PR3wb5kuL/83RL9X9WRuim7n3O3co/zkX+N29jv57+yTMwAvrAdF
+   eJzt10EKwCAMBMA8wP+/t/eS0GBtITADnox4iIQ1AgAA/rWKBQDAPFmee8p6MuBsnSx/fw/Znv5/r/p7vV2dO2KjPqtjrqp/1UzonGWOEzOEfRdE5wPN
   </data>
  </layer>
  <layer name="activator" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt1sEJADAIBEEh/fecDkRIRJCZCoT1cREAADDrTB8AAMCzbNPZe/toukulZ2dz/wTw1wXbJAAW
+   eJzt1rEKACAIBcCgvf//3GhrKYQIQe42QUR4y2sNAABy9ewHAAB4dut0+l49Mq0lkufPzNftsc3jtAhAyARvuwAy
+  </data>
+ </layer>
+ <layer name="borderTop" width="128" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt190GACAMBtDuev837j5bPyLGOUQ0ikxfrQEA/NeTAQBAPVGe22U9GbA291dH9vda9ehp3bxPNL85X7YG1BW9/7s6fQ/vBsDrAV8=
+  </data>
+ </layer>
+ <layer name="borderBottom" width="128" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1MEJAAAIAzFXcP9l/Qt+BTGBQie4CAAAgD05DACAu3L4wG+9B/oAOwqIsACr
+  </data>
+ </layer>
+ <layer name="borderRight" width="128" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1rEJACAMBMD07r+vC4gGFEW9q1MEPoSPAACAfcrpBQAAWKbV7UZ9Tx+8Wya/3oz8/5bN3528a/aHADkV6MEAeg==
+  </data>
+ </layer>
+ <layer name="borderLeft" width="128" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1sEJACAIQFEXaP91m6ASCgp77+pF+B6MAACAN7TbCwAAsGX2z41mfsAaVh31/1ums1uoKdtVfzirA5RoAJA=
+  </data>
+ </layer>
+ <layer name="borderCorners" width="128" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt1zEKgDAQBMBUklL8/2PFQgiiJxI5UWfKLIErwrEpBQAg1xBkNW0K4AljkE1pUwBwp223qztnbXZ0h/eI+jz/tvS5qO+daXeBdwbfsf71evYDcM0MlhEAsw==
+  </data>
+ </layer>
+ <layer name="background" width="128" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt0TkKACAMBMA8IP9/r42tByKKOANbbYrARgAAAAAAwF5Z0+p4V0Z/3xh0nJGXM/tb74Z19v9bAV/1A7U=
   </data>
  </layer>
 </map>
