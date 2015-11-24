@@ -20,7 +20,7 @@
  </tileset>
  <layer name="background" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt0TkKACAMBMA8IP9/r42tByKKOANbbYrARgAAAAAAwF5Z0+p4V0Z/3xh0nJGXM/tb74Z19v9bAV/1A7U=
+   eJzt2dkJACAMBcEUkP7rtQMR8QrOgBVsvp4ZEVn8cd5MgxW9NAcAAACAGnpbno2vtpFtWOP7Xv67cUP76f+3BslnBmE=
   </data>
  </layer>
  <layer name="borderTop" width="128" height="15">
@@ -30,27 +30,27 @@
  </layer>
  <layer name="borderBottom" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt1MEJAAAIAzFXcP9l/Qt+BTGBQie4CAAAgD05DACAu3L4wG+9B/oAOwqIsACr
+   eJzt2LsJACAMBUBXcP9lXSDBDyiKdxCw0NeYIloK8Ku6UCtZvb0jOVkGZ2V30Tsz0kOQqckaeNfsnAEAwP283YBI9P8L7NcAVD0DUw==
   </data>
  </layer>
  <layer name="borderLeft" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt1skJACAMBED/9t+vDYgGvGXmHSSwQTYlAADYJ59eAACAaWrdrtf39MG3RfJrzcj/bqvzib7vTv41+ocAMQUowACF
+   eJzt2DsKwCAQQEF773/fXEDNggnrZ6ayEBGeWlgKrKNmb4ChVp+3Zl80dS7uVjtjYF/uMgDAObL+CsgT6Teao//a/u4TXd85OdfsGwLEPL+FANI=
   </data>
  </layer>
  <layer name="borderRight" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt1skJACAMAME0YP/tWoEHqBjCzFcIwuaRCAAAyKH9/gAAAEdm99zozQ1Yw6qj/vm9bLEz2y7UtNtVf7irA+AsAJ0=
+   eJzt1lEKQBEQQFEbsP/t2gAPRbxxzpdSUpealOC8fPoCTKn1mmm4orc3857cWAOx+N8AAP/2Nc+19syAMfQ66n+/nS1GzvYWYhrtqj+sVQDU9wD4
   </data>
  </layer>
  <layer name="borderCorners" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt10EKgCAQBVBX4TK6/2GjhRBRg1FMGO8tHcRZOPItBQAg1xTUaloXwBfmoLakdQHAm47Zrp6s7WtXexhHlOcZWzS/PbY8F+W9nvMb9wz+o/31nrwPwD0rA6AAwQ==
+   eJzt2LkKwCAQRVGrYBn8/49No/AQnZEUkYn3NIoLCo64pAQAe5Wa3ltnAU9bn+KUjfqoWVuc5TLqsuQ1xrx4AxCDdd6zvwEgpv5ulwdlWjfrgzis+zxis/bvCn27vR2/Ic6A/+D/F/jeA3+OAY0=
   </data>
  </layer>
  <layer name="level" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt1tEKgCAMheFRt+L7P24IBuuwSVEEg/+DEejJm+HQDAAAAPhXk9rnFwAAAPX4N52uRXu6j3r8G973cZtldu2t9rkl6/ie3sWsRj/P/q0y0b3N8vYgP87uLtOTf1GLzoZoPkS5KIN6VjPnTg7vHG21A6Q=
+   eJzt2cEKgCAMgOFhV/H9Hzc8BMu20pJg9X/gReeCFmIqgj/LN1tvnsWYY8Uk1bz5Xg68q77zJMeaXc15WrMZORCX/u6oP/AN3p4BAAAA8eg9XdtnjbXjiMc7t9v+3UX2tW3rnJ1+zNd73qvPaEfOes+eIQPxNXdRMcWZi1jatcFaH6w4Kwbx9N4x9d5DYcwKvEsF8w==
   </data>
  </layer>
 </map>

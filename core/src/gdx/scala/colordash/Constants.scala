@@ -1,6 +1,8 @@
 package gdx.scala.colordash
 
 object Constants {
+  val unitScale= 1 / 64f
+
   val initialVelocity = 4f
   val startX=1f
   val startY=3.1f

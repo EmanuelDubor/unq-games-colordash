@@ -7,9 +7,12 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val width: Float = Constants.tileWidth
   val height: Float = Constants.tileHeigth
 
+  var content: TileContent = Brick
+
   def reset = {
     x = 0
     y = 0
+    content = Brick
   }
 
   def tileUp = TiledWorld.getTile(x, y + height.toInt)
@@ -40,6 +43,13 @@ object Tile extends Pool[Tile] {
 
   def apply(r: Rectangle): Tile = apply(r.x.toInt, r.y.toInt)
 
+  override def free(obj: Tile): Unit = {
+    obj.content match {
+      case c: Activator => Activator.free(c)
+      case _ =>
+    }
+    super.free(obj)
+  }
 }
 
 
