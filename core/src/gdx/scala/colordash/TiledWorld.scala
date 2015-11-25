@@ -52,7 +52,7 @@ object TiledWorld {
       val tile = Tile(x, y)
       val cellProperties = cell.getTile.getProperties
       cellProperties.get("type") match {
-        case "activator" => tile.content = Activator(cellProperties.get("effect", Effects.None, classOf[EffectState]))
+        case "activator" => tile.content = Activator(cellProperties.get("effect", Effects.Dash, classOf[EffectState]))
         case "spike" => tile.content = Spike
         case _ => tile.content = Brick
       }

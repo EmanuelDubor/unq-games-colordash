@@ -2,7 +2,7 @@ package gdx.scala.colordash.physics
 
 import com.badlogic.gdx.math.Rectangle
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.tiles.{Activator, Tile}
+import gdx.scala.colordash.tiles._
 import gdx.scala.colordash.{Constants, TiledWorld}
 
 import scala.collection.JavaConversions._
@@ -11,6 +11,13 @@ trait GravityPhysics {
   protected implicit val tiles = new com.badlogic.gdx.utils.Array[Tile]
 
   val gravity: Float
+
+  def update(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
+    collideX(player)
+    collideY(player)
+    updateVelocityX(player)
+    updateVelocityY(player)
+  }
 
   def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
 
@@ -26,10 +33,10 @@ trait GravityPhysics {
       (futureRect.x + Constants.tileWidth).toInt,
       (rect.y + Constants.tileHeigth).toInt)
 
-    val isColliding = tiles.exists(_.overlaps(futureRect))
-    if (isColliding) {
-      val collidingTile = tiles.find(_.overlaps(futureRect)).get
-      futureRect.x = collidingTile.x - futureRect.width
+    val collidingTile = tiles.find(_.overlaps(futureRect))
+    collidingTile match {
+      case Some(tile) => futureRect.x = tile.x - futureRect.width
+      case _ =>
     }
 
     Tile.freeAll(tiles)
@@ -90,15 +97,16 @@ object NormalGravityPhysics extends GravityPhysics {
       (rect.x + Constants.tileWidth).toInt,
       endY.toInt)
 
-    val isColliding = tiles.exists(_.overlaps(futureRect))
-    if (isColliding) {
-      val collidingTile = tiles.find(_.overlaps(futureRect)).get
-      if (0 < velocity.y) {
-        futureRect.y = collidingTile.y - Constants.tileHeigth
+    val collidingTile = tiles.find(_.overlaps(futureRect))
+    collidingTile match {
+      case Some(tile) => if (0 < velocity.y) {
+        futureRect.y = tile.y - Constants.tileHeigth
       } else {
-        futureRect.y = collidingTile.y + Constants.tileHeigth
+        futureRect.y = tile.y + Constants.tileHeigth
       }
+      case _ =>
     }
+
     Tile.freeAll(tiles)
   }
 

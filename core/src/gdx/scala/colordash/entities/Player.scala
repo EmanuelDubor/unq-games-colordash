@@ -8,7 +8,7 @@ import gdx.scala.colordash.physics.{GravityPhysics, NormalGravityPhysics}
 
 class Player extends SquaredEntity {
   private var physicsComponent: GravityPhysics = NormalGravityPhysics
-  private implicit val futureRect = new Rectangle()
+  private implicit val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
 
   override val color = new Color(0xb25656ff)
   val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
@@ -30,16 +30,21 @@ class Player extends SquaredEntity {
   def update(implicit delta: Float): Unit = {
     physicsComponent.processActions(this)
 
-    futureRect.set(rect.x + velocity.x * delta, rect.y + velocity.y * delta, Constants.tileWidth, Constants.tileHeigth)
+    futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
 
-    physicsComponent.collideX(this)
-    physicsComponent.collideY(this)
-    physicsComponent.updateVelocityX(this)
-    physicsComponent.updateVelocityY(this)
+    try {
+      physicsComponent.update(this)
+    }
+    catch {
+      case _: PlayerDeath => defeat
+    }
 
-    rect.set(futureRect.x, futureRect.y, Constants.tileWidth, Constants.tileHeigth)
+    rect.setPosition(futureRect.x, futureRect.y)
   }
 
   def defeat = ColorDashGame.newPlayer
 
 }
+
+class PlayerDeath extends RuntimeException
+
