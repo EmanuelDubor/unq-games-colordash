@@ -1,7 +1,8 @@
 package gdx.scala.colordash.tiles
 
 import com.badlogic.gdx.math.Rectangle
-import gdx.scala.colordash.{Pool, Poolable, Constants, TiledWorld}
+import gdx.scala.colordash.{Constants, Pool, Poolable, TiledWorld}
+import scala.reflect.ClassTag
 
 class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val width: Float = Constants.tileWidth
@@ -29,6 +30,10 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
       y < r.y + r.height &&
       y + height > r.y
 
+  def has[T <: TileContent : ClassTag]: Boolean = {
+    val klass = implicitly[ClassTag[T]].runtimeClass
+    klass.isInstance(content)
+  }
 }
 
 object Tile extends Pool[Tile] {

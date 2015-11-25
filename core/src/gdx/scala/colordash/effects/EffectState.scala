@@ -1,7 +1,7 @@
-package gdx.scala.colordash
+package gdx.scala.colordash.effects
 
-import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.Constants._
+import gdx.scala.colordash.entities.Player
 
 trait EffectState {
   def applyEffect(player: Player): Unit

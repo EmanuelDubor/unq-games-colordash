@@ -1,8 +1,9 @@
-package gdx.scala.colordash
+package gdx.scala.colordash.physics
 
 import com.badlogic.gdx.math.Rectangle
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.tiles.Tile
+import gdx.scala.colordash.tiles.{Activator, Tile}
+import gdx.scala.colordash.{Constants, TiledWorld}
 
 import scala.collection.JavaConversions._
 
@@ -50,6 +51,18 @@ trait GravityPhysics {
         velocity.x = 0
         Tile.free(tile)
     }
+  }
+
+  def processActions(player: Player): Unit = {
+    val rect = player.rect
+    TiledWorld.findTiles(
+      rect.x.toInt,
+      (rect.y - Constants.tileHeigth).toInt,
+      (rect.x + Constants.tileWidth).toInt,
+      (rect.y + Constants.tileHeigth).toInt)
+
+    tiles.filter(_.has[Activator]).foreach(_.content.applyTo(player))
+    Tile.freeAll(tiles)
   }
 }
 

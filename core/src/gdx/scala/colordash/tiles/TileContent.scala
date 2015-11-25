@@ -1,7 +1,8 @@
 package gdx.scala.colordash.tiles
 
+import gdx.scala.colordash.effects.{Effects, EffectState}
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.{EffectState, Effects, Pool, Poolable}
+import gdx.scala.colordash.{Pool, Poolable}
 
 trait TileContent {
   def applyTo(player: Player): Unit

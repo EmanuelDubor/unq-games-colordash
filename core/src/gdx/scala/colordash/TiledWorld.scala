@@ -1,8 +1,10 @@
 package gdx.scala.colordash
 
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapTileLayer, TmxMapLoader}
+import gdx.scala.colordash.effects.{Effects, EffectState}
 import gdx.scala.colordash.entities.Renderizable
 import gdx.scala.colordash.tiles.{Brick, Spike, Activator, Tile}
 
@@ -30,14 +32,7 @@ object TiledWorld {
     for (x <- startX to endX; y <- startY to endY) {
       val cell: TiledMapTileLayer.Cell = layer.getCell(x, y)
       if (cell != null) {
-        val tile = Tile(x, y)
-        val cellProperties = cell.getTile.getProperties
-        cellProperties.get("type") match {
-          case "activator" => tile.content = Activator(cellProperties.get("effect", Effects.None, classOf[EffectState]))
-          case "spike" => tile.content = Spike
-          case _ => tile.content = Brick
-        }
-        tiles.add(tile)
+        tiles.add(cell.asTile(x, y))
       }
     }
   }
@@ -47,8 +42,23 @@ object TiledWorld {
     val cell = layer.getCell(x, y)
     cell match {
       case null => None
-      case _ => Some(Tile(x, y))
+      case _ => Some(cell.asTile(x, y))
     }
+  }
+
+  implicit class CellToTile(cell: Cell) {
+
+    def asTile(x: Int, y: Int): Tile = {
+      val tile = Tile(x, y)
+      val cellProperties = cell.getTile.getProperties
+      cellProperties.get("type") match {
+        case "activator" => tile.content = Activator(cellProperties.get("effect", Effects.None, classOf[EffectState]))
+        case "spike" => tile.content = Spike
+        case _ => tile.content = Brick
+      }
+      tile
+    }
+
   }
 
 }

@@ -13,4 +13,6 @@ eclipse.project {
 }
 dependencies {
     compile 'org.lwjgl.lwjgl:lwjgl_util:2.9.2'
+    compile 'org.scala-lang:scala-reflect:2.11.7'
+
 }
