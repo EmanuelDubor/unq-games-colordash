@@ -2,18 +2,19 @@ package gdx.scala.colordash.tiles
 
 import com.badlogic.gdx.math.Rectangle
 import gdx.scala.colordash.{Constants, Pool, Poolable, TiledWorld}
+
 import scala.reflect.ClassTag
 
 class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val width: Float = Constants.tileWidth
   val height: Float = Constants.tileHeigth
 
-  var content: TileContent = Brick
+  var content: TileContent = Brick()
 
   def reset = {
     x = 0
     y = 0
-    content = Brick
+    content = Brick()
   }
 
   def tileUp = TiledWorld.getTile(x, y + height.toInt)

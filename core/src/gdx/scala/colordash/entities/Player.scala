@@ -16,8 +16,6 @@ class Player extends SquaredEntity {
   var baseVelocity = Constants.initialVelocity
   val velocity = new Vector2(baseVelocity, physicsComponent.gravity)
 
-  var defeated = false
-
   rect.width = Constants.tileWidth
   rect.height = Constants.tileHeigth
   rect.x = Constants.startX
@@ -32,12 +30,7 @@ class Player extends SquaredEntity {
 
     futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
 
-    try {
-      physicsComponent.update(this)
-    }
-    catch {
-      case _: PlayerDeath => defeat
-    }
+    physicsComponent.update(this)
 
     rect.setPosition(futureRect.x, futureRect.y)
   }
@@ -46,5 +39,5 @@ class Player extends SquaredEntity {
 
 }
 
-class PlayerDeath extends RuntimeException
+
 

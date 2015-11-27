@@ -5,6 +5,8 @@ import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.tiles._
 import gdx.scala.colordash.{Constants, TiledWorld}
 
+import gdx.scala.colordash.tiles.Spike
+
 import scala.collection.JavaConversions._
 
 trait GravityPhysics {
@@ -15,8 +17,18 @@ trait GravityPhysics {
   def update(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     collideX(player)
     collideY(player)
+    checkSpikes(player)
     updateVelocityX(player)
     updateVelocityY(player)
+  }
+
+  def checkSpikes(player: Player)(implicit futureRect: Rectangle): Unit = {
+    val currentTile = TiledWorld.getTile(futureRect.x.toInt, futureRect.y.toInt)
+    currentTile match {
+      case Some(tile) if tile.has[Spike] => player.defeat
+      case _ =>
+    }
+    Tile.free(currentTile)
   }
 
   def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
@@ -35,7 +47,7 @@ trait GravityPhysics {
 
     val collidingTile = tiles.find(_.overlaps(futureRect))
     collidingTile match {
-      case Some(tile) => futureRect.x = tile.x - futureRect.width
+      case Some(tile) if !tile.has[Spike] => futureRect.x = tile.x - futureRect.width
       case _ =>
     }
 
@@ -99,7 +111,7 @@ object NormalGravityPhysics extends GravityPhysics {
 
     val collidingTile = tiles.find(_.overlaps(futureRect))
     collidingTile match {
-      case Some(tile) => if (0 < velocity.y) {
+      case Some(tile) if !tile.has[Spike] => if (0 < velocity.y) {
         futureRect.y = tile.y - Constants.tileHeigth
       } else {
         futureRect.y = tile.y + Constants.tileHeigth

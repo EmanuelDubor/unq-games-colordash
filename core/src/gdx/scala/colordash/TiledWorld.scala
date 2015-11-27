@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapTileLayer, TmxMapLoader}
 import gdx.scala.colordash.effects.{Effects, EffectState}
 import gdx.scala.colordash.entities.Renderizable
-import gdx.scala.colordash.tiles.{Brick, Spike, Activator, Tile}
+import gdx.scala.colordash.tiles.{Activator, Brick, Spike, Tile}
 
 object TiledWorld {
   var levelMap: TiledMap = _
@@ -27,12 +27,11 @@ object TiledWorld {
   }
 
   def findTiles(startX: Int, startY: Int, endX: Int, endY: Int)(implicit tiles: com.badlogic.gdx.utils.Array[Tile]) {
-    val layer: TiledMapTileLayer = levelMap.getLayers.get("level").asInstanceOf[TiledMapTileLayer]
     tiles.clear()
     for (x <- startX to endX; y <- startY to endY) {
-      val cell: TiledMapTileLayer.Cell = layer.getCell(x, y)
-      if (cell != null) {
-        tiles.add(cell.asTile(x, y))
+      getTile(x, y) match {
+        case Some(tile) => tiles.add(tile)
+        case _ =>
       }
     }
   }
@@ -52,9 +51,11 @@ object TiledWorld {
       val tile = Tile(x, y)
       val cellProperties = cell.getTile.getProperties
       cellProperties.get("type") match {
-        case "activator" => tile.content = Activator(cellProperties.get("effect", Effects.Dash, classOf[EffectState]))
-        case "spike" => tile.content = Spike
-        case _ => tile.content = Brick
+        case "activator" =>
+          val effectState = cellProperties.get("effect", Effects.None, classOf[EffectState])
+          tile.content = Activator(effectState)
+        case "spike" => tile.content = Spike()
+        case _ => tile.content = Brick()
       }
       tile
     }

@@ -8,7 +8,7 @@ object Constants {
   val startY=3.1f
   
   val gravity = 20f
-  val friction = -0.1f
+  val friction = -8f
 
   val tileHeigth=1f
   val tileWidth=1f
@@ -17,6 +17,6 @@ object Constants {
   val jumpY = 1.5f
 
   val dashX = 0.5f
-  val dashY = 0.3f
+  val dashY = 0.4f
 
 }
