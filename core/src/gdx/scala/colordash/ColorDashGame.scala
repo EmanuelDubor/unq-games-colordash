@@ -30,8 +30,8 @@ object ColorDashGame extends ApplicationAdapter {
     implicit val delta = Gdx.graphics.getDeltaTime
     currentPlayer.update
 
-    camera.position.x = currentPlayer.rect.x
-    camera.position.y = currentPlayer.rect.y
+    camera.position.x = currentPlayer.rect.x + Constants.cameraXOffset
+    camera.position.y = currentPlayer.rect.y + Constants.cameraYOffset
 
     TiledWorld.render(players, camera)
 

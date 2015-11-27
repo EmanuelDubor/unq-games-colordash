@@ -1,10 +1,12 @@
 package gdx.scala.colordash
 
 object Constants {
-  val unitScale= 1 / 64f
-
   val tileHeigth=1f
   val tileWidth=1f
+
+  val unitScale= 1 / 64f
+  val cameraXOffset= 0f
+  val cameraYOffset= tileHeigth * 2.5f
 
   val gravity = 20f
   val friction = -8f
