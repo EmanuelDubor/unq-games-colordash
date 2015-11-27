@@ -14,28 +14,21 @@ trait GravityPhysics {
 
   val gravity: Float
 
-  def update(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
+  def collide(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     collideX(player)
     collideY(player)
-    checkSpikes(player)
+  }
+
+  def updateVelocity(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     updateVelocityX(player)
     updateVelocityY(player)
   }
 
-  def checkSpikes(player: Player)(implicit futureRect: Rectangle): Unit = {
-    val currentTile = TiledWorld.getTile(futureRect.x.toInt, futureRect.y.toInt)
-    currentTile match {
-      case Some(tile) if tile.has[Spike] => player.defeat
-      case _ =>
-    }
-    Tile.free(currentTile)
-  }
+  protected def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
 
-  def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
+  protected def updateVelocityY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
 
-  def updateVelocityY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
-
-  def collideX(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
+  private def collideX(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val rect = player.rect
     val velocity = player.velocity
 
@@ -54,7 +47,7 @@ trait GravityPhysics {
     Tile.freeAll(tiles)
   }
 
-  def updateVelocityX(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
+  private def updateVelocityX(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val velocity = player.velocity
     val futureTile = Tile(futureRect)
 
@@ -89,7 +82,7 @@ object NormalGravityPhysics extends GravityPhysics {
 
   val gravity = Constants.gravity * -1
 
-  def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
+  protected def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val rect = player.rect
     val velocity = player.velocity
     var yAux = futureRect.y
@@ -122,7 +115,7 @@ object NormalGravityPhysics extends GravityPhysics {
     Tile.freeAll(tiles)
   }
 
-  def updateVelocityY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
+  protected def updateVelocityY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
 
     val velocity = player.velocity
     val futureTile = Tile(futureRect)

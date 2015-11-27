@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
 import gdx.scala.colordash.physics.{GravityPhysics, NormalGravityPhysics}
+import gdx.scala.colordash.tiles.{Tile, Spike}
 
 class Player extends SquaredEntity {
   private var physicsComponent: GravityPhysics = NormalGravityPhysics
@@ -30,9 +31,20 @@ class Player extends SquaredEntity {
 
     futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
 
-    physicsComponent.update(this)
+    physicsComponent.collide(this)
+    physicsComponent.updateVelocity(this)
+    checkDefeat
 
     rect.setPosition(futureRect.x, futureRect.y)
+  }
+
+  def checkDefeat: Unit = {
+    val futureTile = TiledWorld.getTile(futureRect.x.toInt, futureRect.y.toInt)
+    futureTile match {
+      case Some(tile) if tile.has[Spike] => defeat
+      case _ => if (rect == futureRect) {defeat}
+    }
+    Tile.free(futureTile)
   }
 
   def defeat = ColorDashGame.newPlayer
