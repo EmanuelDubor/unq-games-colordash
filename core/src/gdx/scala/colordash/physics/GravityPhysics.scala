@@ -131,7 +131,7 @@ object NormalGravityPhysics extends GravityPhysics {
 
     (tileUp, tileDown) match {
       case (Some(_), _) if 0 < velocity.y => velocity.y = 0
-      case (_, Some(_)) if velocity.y < 0 => velocity.y = 0
+      case (_, Some(tile)) if velocity.y < 0 && futureRect.y <= tile.y + Constants.tileHeigth  => velocity.y = 0
       case (_, _) => velocity.y += gravity * delta
     }
     Tile.free(tileUp)

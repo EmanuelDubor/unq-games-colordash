@@ -14,7 +14,7 @@ class Player extends SquaredEntity {
   val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
 
   var baseVelocity = Constants.initialVelocity
-  val velocity = new Vector2(baseVelocity, physicsComponent.gravity)
+  val velocity = new Vector2(baseVelocity, 0)
 
   rect.width = Constants.tileWidth
   rect.height = Constants.tileHeigth
