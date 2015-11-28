@@ -5,6 +5,8 @@ object Constants {
   val tileWidth=1f
 
   val unitScale= 1 / 64f
+  val viewportWidth=20f
+  val viewportHeigth=15f
   val cameraXOffset= 0f
   val cameraYOffset= tileHeigth * 2.5f
 

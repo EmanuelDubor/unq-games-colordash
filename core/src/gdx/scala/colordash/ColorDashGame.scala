@@ -18,8 +18,9 @@ object ColorDashGame extends ApplicationAdapter {
 
     currentPlayer = new Player
     players = players.+:(currentPlayer)
-    camera.setToOrtho(false, 20, 15)
+    camera.setToOrtho(false, Constants.viewportWidth, Constants.viewportHeigth)
     camera.update()
+    Gdx.input.setInputProcessor(InputHandler)
   }
 
   override def render() {

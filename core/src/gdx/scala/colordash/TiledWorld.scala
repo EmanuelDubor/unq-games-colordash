@@ -49,10 +49,11 @@ object TiledWorld {
 
     def asTile(x: Int, y: Int): Tile = {
       val tile = Tile(x, y)
+      tile.cell=Some(cell)
       val cellProperties = cell.getTile.getProperties
       cellProperties.get("type") match {
         case "activator" =>
-          val effectState = cellProperties.get("effect", Effects.Jump, classOf[EffectState])
+          val effectState = cellProperties.get("effect", Effects.None, classOf[EffectState])
           tile.content = Activator(effectState)
         case "spike" => tile.content = Spike()
         case _ => tile.content = Brick()

@@ -1,5 +1,6 @@
 package gdx.scala.colordash.tiles
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
 import gdx.scala.colordash.{Constants, Pool, Poolable, TiledWorld}
 
@@ -10,11 +11,13 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val height: Float = Constants.tileHeigth
 
   var content: TileContent = Brick()
+  var cell: Option[Cell] = None
 
   def reset = {
     x = 0
     y = 0
     content = Brick()
+    cell = None
   }
 
   def tileUp = TiledWorld.getTile(x, y + height.toInt)
@@ -34,6 +37,16 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   def has[T <: TileContent : ClassTag]: Boolean = {
     val klass = implicitly[ClassTag[T]].runtimeClass
     klass.isInstance(content)
+  }
+
+  def getProperty[T: ClassTag](key: String): Option[T] = cell match {
+    case Some(cell) => cell.getTile.getProperties.get(key, None, classOf[Option[T]])
+    case _ => None
+  }
+
+  def setProperty[T](key: String, value: T): Unit = cell match {
+    case Some(cell) => cell.getTile.getProperties.put(key, value)
+    case _ =>
   }
 }
 
