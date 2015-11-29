@@ -3,7 +3,6 @@ package gdx.scala.colordash
 import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.tiles
 import gdx.scala.colordash.tiles.TileEffectMap
 
 object ColorDashGame extends ApplicationAdapter {

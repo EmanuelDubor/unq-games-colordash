@@ -3,8 +3,8 @@ package gdx.scala.colordash.tiles
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.ObjectMap
-import gdx.scala.colordash.effect.Effect
-import gdx.scala.colordash.{Constants, Pool, Poolable, effect}
+import gdx.scala.colordash.effect.{Effect, Effects}
+import gdx.scala.colordash.{Constants, Pool, Poolable}
 
 import scala.reflect.ClassTag
 
@@ -86,7 +86,7 @@ object Tile extends Pool[Tile] {
 }
 
 object TileEffectMap extends ObjectMap[(Int, Int), Effect] {
-  def get(tile: Tile): Effect = get((tile.x, tile.y), effect.Effects.None)
+  def get(tile: Tile): Effect = get((tile.x, tile.y), Effects.None)
 
   def put(tile: Tile, effect: Effect): Effect = put((tile.x, tile.y), effect)
 }
