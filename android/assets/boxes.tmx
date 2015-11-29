@@ -12,6 +12,11 @@
     <property name="type" value="activator"/>
    </properties>
   </tile>
+  <tile id="3">
+   <properties>
+    <property name="type" value="spike"/>
+   </properties>
+  </tile>
   <tile id="11">
    <properties>
     <property name="type" value="brick"/>
@@ -50,7 +55,7 @@
  </layer>
  <layer name="level" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt2cEKgCAMgOFhV/H9Hzc8BMu20pJg9X/gReeCFmIqgj/LN1tvnsWYY8Uk1bz5Xg68q77zJMeaXc15WrMZORCX/u6oP/AN3p4BAAAA8eg9XdtnjbXjiMc7t9v+3UX2tW3rnJ1+zNd73qvPaEfOes+eIQPxNXdRMcWZi1jatcFaH6w4Kwbx9N4x9d5DYcwKvEsF8w==
+   eJzt2dEKgCAMQNFRPor//7khFJhtpSXB6h7wJbcFLURUBH8Wb47WOrOSo8WEYlj5Vg28K3/zIMeeXeU87dmIGvCr/O/oP/AN1p4BAAAA/pR7uvqZNlfPwx/r3G5ah8i+t3Wfo/Ec47We9+Z+bv3rOes9e4d0xOfaqYhJRi58qdcGbX3Q4rQY+NN6x9R6D4U+C4xpBgU=
   </data>
  </layer>
 </map>

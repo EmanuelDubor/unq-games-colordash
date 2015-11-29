@@ -1,6 +1,7 @@
 package gdx.scala.colordash.physics
 
 import com.badlogic.gdx.math.Rectangle
+import gdx.scala.colordash.effects.Effects
 import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.tiles._
 import gdx.scala.colordash.{Constants, TiledWorld}
@@ -32,15 +33,15 @@ trait GravityPhysics {
     val rect = player.rect
     val velocity = player.velocity
 
-    TiledWorld.findTiles(
+    Tile.findTiles(
       rect.x.toInt,
       rect.y.toInt,
       (futureRect.x + Constants.tileWidth).toInt,
       (rect.y + Constants.tileHeigth).toInt)
 
-    val collidingTile = tiles.find(_.overlaps(futureRect))
+    val collidingTile = tiles.filterNot { tile => tile.has[Nothing] || tile.has[Spike] }.find(_.overlaps(futureRect))
     collidingTile match {
-      case Some(tile) if !tile.has[Spike] => futureRect.x = tile.x - futureRect.width
+      case Some(tile) => futureRect.x = tile.x - futureRect.width
       case _ =>
     }
 
@@ -50,30 +51,37 @@ trait GravityPhysics {
   private def updateVelocityX(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val velocity = player.velocity
     val futureTile = Tile(futureRect)
-
     val nextTile = futureTile.tileRight
 
-    nextTile match {
-      case None => if (0 != velocity.x && velocity.x < player.baseVelocity) {
+    nextTile.content match {
+      case _: Nothing => if (0 != velocity.x && velocity.x < player.baseVelocity) {
         velocity.x = player.baseVelocity
       } else if (player.baseVelocity < velocity.x) {
         velocity.x += Constants.friction * delta
       }
-      case Some(tile) =>
+      case _ =>
         velocity.x = 0
-        Tile.free(tile)
     }
+    Tile.free(nextTile)
+    Tile.free(futureTile)
   }
 
   def processActions(player: Player): Unit = {
-    val rect = player.rect
-    TiledWorld.findTiles(
-      rect.x.toInt,
-      (rect.y - Constants.tileHeigth).toInt,
-      (rect.x + Constants.tileWidth).toInt,
-      (rect.y + Constants.tileHeigth).toInt)
+    tiles.clear()
 
-    tiles.filter(_.has[Activator]).foreach(_.content.applyTo(player))
+    val currentTile = Tile(player.rect)
+    tiles.add(currentTile.tileRight)
+    tiles.add(currentTile.tileUp)
+    tiles.add(currentTile.tileDown)
+
+    tiles.filter { tile =>
+      tile.has[Activator] &&
+        tile.touches(player.rect)
+    }.foreach { tile =>
+      tile.effect.applyEffect(player)
+      tile.effect = Effects.None
+    }
+
     Tile.freeAll(tiles)
   }
 }
@@ -96,15 +104,15 @@ object NormalGravityPhysics extends GravityPhysics {
     val startY = Math.min(rect.y, yAux)
     val endY = Math.max(rect.y, yAux)
 
-    TiledWorld.findTiles(
+    Tile.findTiles(
       rect.x.toInt,
       startY.toInt,
       (rect.x + Constants.tileWidth).toInt,
       endY.toInt)
 
-    val collidingTile = tiles.find(_.overlaps(futureRect))
+    val collidingTile = tiles.filterNot { tile => tile.has[Nothing] || tile.has[Spike] }.find(_.overlaps(futureRect))
     collidingTile match {
-      case Some(tile) if !tile.has[Spike] => if (0 < velocity.y) {
+      case Some(tile) => if (0 < velocity.y) {
         futureRect.y = tile.y - Constants.tileHeigth
       } else {
         futureRect.y = tile.y + Constants.tileHeigth
@@ -122,11 +130,12 @@ object NormalGravityPhysics extends GravityPhysics {
     val tileUp = futureTile.tileUp
     val tileDown = futureTile.tileDown
 
-    (tileUp, tileDown) match {
-      case (Some(_), _) if 0 < velocity.y => velocity.y = 0
-      case (_, Some(tile)) if velocity.y < 0 && futureRect.y <= tile.y + Constants.tileHeigth  => velocity.y = 0
+    (tileUp.has[Nothing], tileDown.has[Nothing]) match {
+      case (false, _) if 0 < velocity.y => velocity.y = 0
+      case (_, false) if velocity.y < 0 && futureRect.y <= tileDown.y + Constants.tileHeigth => velocity.y = 0
       case (_, _) => velocity.y += gravity * delta
     }
+
     Tile.free(tileUp)
     Tile.free(tileDown)
     Tile.free(futureTile)

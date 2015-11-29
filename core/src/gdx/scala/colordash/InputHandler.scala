@@ -1,10 +1,10 @@
 package gdx.scala.colordash
 
 import com.badlogic.gdx.Input.Buttons
-import com.badlogic.gdx.InputProcessor
+import com.badlogic.gdx.{Input, InputProcessor}
 import com.badlogic.gdx.math.Vector3
 import gdx.scala.colordash.effects.{EffectState, Effects}
-import gdx.scala.colordash.tiles.Activator
+import gdx.scala.colordash.tiles.{Tile, Activator}
 
 trait BasicInputHandler extends InputProcessor {
   def keyTyped(character: Char): Boolean = {
@@ -41,19 +41,32 @@ trait BasicInputHandler extends InputProcessor {
 }
 
 object InputHandler extends BasicInputHandler {
-  var currentEffect: EffectState = Effects.Jump
+  var currentEffect: EffectState = Effects.None
 
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
     button match {
       case Buttons.LEFT =>
-        val gameCoords = ColorDashGame.camera.unproject(new Vector3(screenX, screenY, 0))
-        val clickedTile = TiledWorld.getTile(gameCoords.x.toInt, gameCoords.y.toInt)
-        clickedTile match {
-          case Some(tile) if tile.has[Activator] => tile.setProperty("effect", currentEffect)
-          case _ =>
+        val gameCoords = ColorDashGame.gameCamera.unproject(new Vector3(screenX, screenY, 0))
+        val clickedTile = Tile(gameCoords.x.toInt, gameCoords.y.toInt)
+        if (clickedTile.has[Activator]) {
+          clickedTile.effect = currentEffect
         }
+        Tile.free(clickedTile)
       case _ =>
     }
-    false
+    true
   }
+
+  override def keyUp(keycode: Int): Boolean = {
+    keycode match {
+      case Input.Keys.NUM_1 => currentEffect = Effects.None
+      case Input.Keys.NUM_2 => currentEffect = Effects.Jump
+      case Input.Keys.NUM_3 => currentEffect = Effects.Dash
+      case Input.Keys.P => ColorDashGame.togglePause
+      case Input.Keys.R => ColorDashGame.newPlayer
+      case _ =>
+    }
+    true
+  }
+
 }

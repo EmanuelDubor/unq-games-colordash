@@ -2,6 +2,7 @@ package gdx.scala.colordash.tiles
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
+import gdx.scala.colordash.effects.EffectState
 import gdx.scala.colordash.{Constants, Pool, Poolable, TiledWorld}
 
 import scala.reflect.ClassTag
@@ -10,23 +11,21 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val width: Float = Constants.tileWidth
   val height: Float = Constants.tileHeigth
 
-  var content: TileContent = Brick()
-  var cell: Option[Cell] = None
+  var content: TileContent = Nothing()
 
   def reset = {
     x = 0
     y = 0
-    content = Brick()
-    cell = None
+    content = Nothing()
   }
 
-  def tileUp = TiledWorld.getTile(x, y + height.toInt)
+  def tileUp = Tile(x, y + height.toInt)
 
-  def tileDown = TiledWorld.getTile(x, y - height.toInt)
+  def tileDown = Tile(x, y - height.toInt)
 
-  def tileRight = TiledWorld.getTile(x + width.toInt, y)
+  def tileRight = Tile(x + width.toInt, y)
 
-  def tileLeft = TiledWorld.getTile(x - width.toInt, y)
+  def tileLeft = Tile(x - width.toInt, y)
 
   def overlaps(r: Rectangle) =
     x < r.x + r.width &&
@@ -34,20 +33,21 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
       y < r.y + r.height &&
       y + height > r.y
 
+  def touches(r: Rectangle) = {
+    val xMargin = Constants.tileWidth * Constants.marginFactor
+    val yMargin = Constants.tileHeigth * Constants.marginFactor
+    val rect = new Rectangle(x - xMargin, y - yMargin, width + (2 * xMargin), height + (2 * yMargin))
+    rect.overlaps(r)
+  }
+
   def has[T <: TileContent : ClassTag]: Boolean = {
     val klass = implicitly[ClassTag[T]].runtimeClass
     klass.isInstance(content)
   }
 
-  def getProperty[T: ClassTag](key: String): Option[T] = cell match {
-    case Some(cell) => cell.getTile.getProperties.get(key, None, classOf[Option[T]])
-    case _ => None
-  }
+  def effect_=(effect: EffectState) = TileEffectMap.put(this, effect)
 
-  def setProperty[T](key: String, value: T): Unit = cell match {
-    case Some(cell) => cell.getTile.getProperties.put(key, value)
-    case _ =>
-  }
+  def effect = TileEffectMap.get(this)
 }
 
 object Tile extends Pool[Tile] {
@@ -57,18 +57,31 @@ object Tile extends Pool[Tile] {
     val tile = obtain
     tile.x = x
     tile.y = y
+    tile.content = TiledWorld.getCell(x, y).content
     tile
   }
 
   def apply(r: Rectangle): Tile = apply(r.x.toInt, r.y.toInt)
 
-  override def free(obj: Tile): Unit = {
-    obj.content match {
-      case c: Activator => Activator.free(c)
-      case _ =>
+  def findTiles(startX: Int, startY: Int, endX: Int, endY: Int)(implicit tiles: com.badlogic.gdx.utils.Array[Tile]) {
+    tiles.clear()
+    for (x <- startX to endX; y <- startY to endY) {
+      tiles.add(Tile(x, y))
     }
-    super.free(obj)
   }
+
+  implicit class CellParser(optionCell: Option[Cell]) {
+    def content: TileContent = optionCell match {
+      case Some(cell) => cell.getTile.getProperties.get("type") match {
+        case "activator" => Activator()
+        case "spike" => Spike()
+        case "brick" => Brick()
+        case _ => Nothing()
+      }
+      case _ => Nothing()
+    }
+  }
+
 }
 
 

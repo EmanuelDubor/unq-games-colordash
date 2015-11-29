@@ -12,7 +12,7 @@ class Player extends SquaredEntity {
   private implicit val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
 
   override val color = new Color(0xb25656ff)
-  val playerTexture = TextureRegion.split(new Texture("boxes_map.png"), 64, 64)(0)(0)
+  val playerTexture = TextureRegion.split(new Texture(Constants.gameTextures), 64, 64)(0)(0)
 
   var baseVelocity = Constants.initialVelocity
   val velocity = new Vector2(baseVelocity, 0)
@@ -39,15 +39,12 @@ class Player extends SquaredEntity {
   }
 
   def checkDefeat: Unit = {
-    val futureTile = TiledWorld.getTile(futureRect.x.toInt, futureRect.y.toInt)
-    futureTile match {
-      case Some(tile) if tile.has[Spike] => defeat
-      case _ => if (rect == futureRect) {defeat}
+    val futureTile = Tile(futureRect.x.toInt, futureRect.y.toInt)
+    if (futureTile.has[Spike] || rect.equals(futureRect)) {
+      ColorDashGame.newPlayer
     }
     Tile.free(futureTile)
   }
-
-  def defeat = ColorDashGame.newPlayer
 
 }
 

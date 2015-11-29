@@ -27,11 +27,6 @@ trait Pool[T <: Poolable] {
 
   def freeAll(collection: Iterable[T]) = collection.foreach(free)
 
-  def free(opt: Option[T]):Unit = opt match {
-    case Some(obj) => free(obj)
-    case _ =>
-  }
-
   def clear = freeObjects.clear
 
 }

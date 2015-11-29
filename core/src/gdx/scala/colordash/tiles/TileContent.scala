@@ -1,57 +1,50 @@
 package gdx.scala.colordash.tiles
 
+import com.badlogic.gdx.utils.ObjectMap
 import gdx.scala.colordash.effects.{EffectState, Effects}
-import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.{Pool, Poolable}
 
-trait TileContent {
-  def applyTo(player: Player): Unit = {}
+object TileEffectMap extends ObjectMap[(Int, Int), EffectState] {
+  def get(tile: Tile): EffectState = get((tile.x, tile.y), Effects.None)
+
+  def put(tile: Tile, effect: EffectState): EffectState = put((tile.x, tile.y), effect)
 }
 
-class Brick extends TileContent {}
+trait TileContent
 
-object Brick {
-  private var instance: Option[Brick] = None
+class Activator extends TileContent
 
-  def apply(): Brick = instance match {
-    case Some(brick) => brick
+class Spike extends TileContent
+
+class Brick extends TileContent
+
+class Nothing extends TileContent
+
+trait Singleton[T] {
+  private var instance: Option[T] = None
+
+  def newObject: T
+
+  def apply(): T = instance match {
+    case Some(obj) => obj
     case None =>
-      val brick = new Brick
-      instance = Some(brick)
-      brick
+      val obj = newObject
+      instance = Some(obj)
+      obj
   }
 }
 
-class Spike extends TileContent {}
-
-object Spike {
-  private var instance: Option[Spike] = None
-
-  def apply(): Spike = instance match {
-    case Some(spike) => spike
-    case None =>
-      val spike = new Spike
-      instance = Some(spike)
-      spike
-  }
-}
-
-class Activator extends TileContent with Poolable {
-  var effect: EffectState = Effects.None
-
-  override def reset: Unit = effect = Effects.None
-
-  override def applyTo(player: Player): Unit = {
-    effect.applyEffect(player)
-  }
-}
-
-object Activator extends Pool[Activator] {
+object Activator extends Singleton[Activator] {
   override def newObject: Activator = new Activator
+}
 
-  def apply(effect: EffectState): Activator = {
-    val activator = obtain
-    activator.effect = effect
-    activator
-  }
+object Spike extends Singleton[Spike] {
+  override def newObject: Spike = new Spike
+}
+
+object Brick extends Singleton[Brick] {
+  def newObject: Brick = new Brick
+}
+
+object Nothing extends Singleton[Nothing] {
+  override def newObject: Nothing = new Nothing
 }
