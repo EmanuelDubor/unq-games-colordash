@@ -3,6 +3,7 @@ package gdx.scala.colordash
 import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 import gdx.scala.colordash.entities.Player
+import gdx.scala.colordash.tiles
 import gdx.scala.colordash.tiles.TileEffectMap
 
 object ColorDashGame extends ApplicationAdapter {
@@ -15,7 +16,7 @@ object ColorDashGame extends ApplicationAdapter {
   override def create() {
     gameCamera = new OrthographicCamera()
 
-    TiledWorld.initialize()
+    tiles.TiledWorld.initialize()
 
     currentPlayer = new Player
     players = players.+:(currentPlayer)
@@ -36,7 +37,7 @@ object ColorDashGame extends ApplicationAdapter {
       gameCamera.position.x = currentPlayer.rect.x + Constants.gameCameraXOffset
       gameCamera.position.y = currentPlayer.rect.y + Constants.gameCameraYOffset
 
-      TiledWorld.render(players, gameCamera)
+      tiles.TiledWorld.render(players, gameCamera)
     }
   }
 

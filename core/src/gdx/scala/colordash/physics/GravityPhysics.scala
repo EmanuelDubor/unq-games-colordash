@@ -1,10 +1,10 @@
 package gdx.scala.colordash.physics
 
 import com.badlogic.gdx.math.Rectangle
-import gdx.scala.colordash.effects.Effects
+import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.tiles._
-import gdx.scala.colordash.{Constants, TiledWorld}
+import gdx.scala.colordash.Constants
 
 import gdx.scala.colordash.tiles.Spike
 

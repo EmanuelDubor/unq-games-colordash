@@ -23,7 +23,7 @@ object Constants {
   val jumpX = 1f
   val jumpY = 8f
 
-  val dashX = 0.5f
-  val dashY = 0.4f
+  val dashX = 4f
+  val dashY = 4f
 
 }

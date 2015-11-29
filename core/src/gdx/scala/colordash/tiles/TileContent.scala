@@ -1,14 +1,5 @@
 package gdx.scala.colordash.tiles
 
-import com.badlogic.gdx.utils.ObjectMap
-import gdx.scala.colordash.effects.{Effect, Effects}
-
-object TileEffectMap extends ObjectMap[(Int, Int), Effect] {
-  def get(tile: Tile): Effect = get((tile.x, tile.y), Effects.None)
-
-  def put(tile: Tile, effect: Effect): Effect = put((tile.x, tile.y), effect)
-}
-
 trait TileContent
 
 class Activator extends TileContent
