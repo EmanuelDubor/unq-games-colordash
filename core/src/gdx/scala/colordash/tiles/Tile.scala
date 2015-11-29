@@ -2,7 +2,7 @@ package gdx.scala.colordash.tiles
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
-import gdx.scala.colordash.effects.EffectState
+import gdx.scala.colordash.effects.Effect
 import gdx.scala.colordash.{Constants, Pool, Poolable, TiledWorld}
 
 import scala.reflect.ClassTag
@@ -45,7 +45,7 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
     klass.isInstance(content)
   }
 
-  def effect_=(effect: EffectState) = TileEffectMap.put(this, effect)
+  def effect_=(effect: Effect) = TileEffectMap.put(this, effect)
 
   def effect = TileEffectMap.get(this)
 }

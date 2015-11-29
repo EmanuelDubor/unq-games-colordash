@@ -3,7 +3,7 @@ package gdx.scala.colordash
 import com.badlogic.gdx.Input.Buttons
 import com.badlogic.gdx.{Input, InputProcessor}
 import com.badlogic.gdx.math.Vector3
-import gdx.scala.colordash.effects.{EffectState, Effects}
+import gdx.scala.colordash.effects.{Effect, Effects}
 import gdx.scala.colordash.tiles.{Tile, Activator}
 
 trait BasicInputHandler extends InputProcessor {
@@ -41,7 +41,7 @@ trait BasicInputHandler extends InputProcessor {
 }
 
 object InputHandler extends BasicInputHandler {
-  var currentEffect: EffectState = Effects.None
+  var currentEffect: Effect = Effects.None
 
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
     button match {
