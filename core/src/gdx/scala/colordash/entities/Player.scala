@@ -1,21 +1,19 @@
 package gdx.scala.colordash.entities
 
 import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
-import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
 import gdx.scala.colordash.physics.{GravityPhysics, NormalGravityPhysics}
 import gdx.scala.colordash.tiles.{Spike, Tile}
 
-class Player extends SquaredEntity {
+class Player(playerTexture: TextureRegion) extends SquaredEntity {
   private var physicsComponent: GravityPhysics = NormalGravityPhysics
   private implicit val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
 
-  override val color = new Color(0xb25656ff)
-  val playerTexture = TextureRegion.split(new Texture(Constants.gameTextures), 64, 64)(0)(0)
-
   var baseVelocity = Constants.initialVelocity
   private var tickCount = 0
+
+  var totalTime=0f
 
   val velocity = new Vector2(baseVelocity, 0)
   rect.width = Constants.tileWidth
@@ -29,6 +27,7 @@ class Player extends SquaredEntity {
   }
 
   def update(implicit delta: Float): Unit = {
+    totalTime+=delta
     physicsComponent.processActions(this)
 
     futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
@@ -42,9 +41,6 @@ class Player extends SquaredEntity {
 
   def checkDefeat: Unit = {
     val futureTile = Tile(futureRect.x.toInt, futureRect.y.toInt)
-    //    if (futureTile.has[Spike]) {
-    //      ColorDashGame.newPlayer
-    //    }
 
     if (rect.equals(futureRect) || futureTile.has[Spike]) {
       tickCount += 1

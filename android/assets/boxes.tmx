@@ -25,7 +25,7 @@
  </tileset>
  <layer name="background" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt2dkJACAMBcEUkP7rtQMR8QrOgBVsvp4ZEVn8cd5MgxW9NAcAAACAGnpbno2vtpFtWOP7Xv67cUP76f+3BslnBmE=
+   eJzt2cEJACEMBMAUYP/1XgNBj6ioMAP+Igr7y7aIaIdPZvY+91mRl8wBAAAA4A2j/S/v+rOfl/F51Y5lZ/eTvdGboe7G7i/7W2+Gug/1tAXF
   </data>
  </layer>
  <layer name="borderTop" width="128" height="15">
@@ -55,7 +55,7 @@
  </layer>
  <layer name="level" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt2dEKgCAMQNFRPkr//7khFKzaSkuC1T3gi20LWoioCP4s3xy1dUYjx4pJanj5Xg28q3zzJMeeXeU87VmPGohL/3f0H/gGb88AAACAePSeTs+NzjOdwx4wJu/cbliGyLa3+z5nZx791Z73ln6u/Ws56z17hzTEl9qTipmcXMSyXxus9cGKs2IQT+0dU+09FNrMNqEF/A==
+   eJzt2OsKgCAMhuFR/Qzv/3IjKBD91OxgWO8Dg5BZ4GSJZu+bRaANtfZ3xWi6pipv8qL2HWhrXfPJ4pqV5lytGT3i3/x9R/2Bbyj96wEAANAP/1ynxvbncA5nwH6l7nOHLczi/RDOV+O4X81d7l6/I/e9R75hFfnru52X4xJz8Yyn7l7D3qD6g8pTOehPrufk8sIzBc5ZAEMkBpg=
   </data>
  </layer>
 </map>

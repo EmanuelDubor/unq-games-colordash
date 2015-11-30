@@ -1,6 +1,7 @@
 package gdx.scala.colordash
 
 import com.badlogic.gdx.graphics._
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.gui.GUI
@@ -12,17 +13,23 @@ object ColorDashGame extends ApplicationAdapter {
   var players = List.empty[Player]
   var currentPlayer: Player = _
   var paused = false
+  var texture: Texture = _
+  var playerTexture: TextureRegion = _
 
   override def create() {
+    texture = new Texture(Constants.gameTextures)
+    playerTexture = TextureRegion.split(texture, 64, 64)(0)(0)
+
     gameCamera = new OrthographicCamera()
-
-    tiles.TiledWorld.initialize()
-
-    currentPlayer = new Player
-    players = players.+:(currentPlayer)
     gameCamera.setToOrtho(false, Constants.viewportWidth, Constants.viewportHeigth)
     gameCamera.update
+
     Gdx.input.setInputProcessor(InputHandler)
+    tiles.TiledWorld.initialize()
+    GUI.create
+
+    currentPlayer = new Player(playerTexture)
+    players = players.+:(currentPlayer)
   }
 
   override def render() {
@@ -39,12 +46,12 @@ object ColorDashGame extends ApplicationAdapter {
 
       TiledWorld.render(players, gameCamera)
     }
-    GUI.render()
+    GUI.render
   }
 
   def newPlayer = {
     TileEffectMap.clear
-    currentPlayer = new Player
+    currentPlayer = new Player(playerTexture)
     players = players.+:(currentPlayer)
   }
 
@@ -52,4 +59,9 @@ object ColorDashGame extends ApplicationAdapter {
     paused = !paused
   }
 
+  override def dispose(): Unit = {
+    texture.dispose
+    TiledWorld.dispose
+    GUI.dispose
+  }
 }

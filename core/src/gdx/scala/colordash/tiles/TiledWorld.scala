@@ -30,4 +30,6 @@ object TiledWorld {
     case cell => Some(cell)
   }
 
+  def dispose = levelMap.dispose
+
 }

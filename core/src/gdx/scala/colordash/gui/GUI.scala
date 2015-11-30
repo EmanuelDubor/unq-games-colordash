@@ -1,25 +1,33 @@
 package gdx.scala.colordash.gui
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+import com.badlogic.gdx.graphics.g2d.{BitmapFont, SpriteBatch, TextureRegion}
+import com.badlogic.gdx.graphics.{Color, Texture}
+import gdx.scala.colordash.ColorDashGame
 
 object GUI {
+  var font: BitmapFont = _
+  var texture: Texture = _
+  var base: TextureRegion = _
 
-  def render(): Unit = {
-    val shapeRederer = new ShapeRenderer
+  def create = {
+    font = new BitmapFont
+    font.setColor(Color.ORANGE)
+    texture = new Texture("gui_base.png")
+    base = new TextureRegion(texture)
+  }
 
-    shapeRederer.begin(ShapeType.Filled)
-    shapeRederer.setColor(Color.DARK_GRAY)
-    shapeRederer.rect(0, 0, Gdx.graphics.getWidth, 64)
-    shapeRederer.end
+  def render = {
+    val batch = new SpriteBatch
+    batch.begin
+    batch.draw(base, 0, 0, base.getRegionWidth, base.getRegionHeight)
+    font.draw(batch, s"Tries: ${ColorDashGame.players.size}", 265, 48)
+    font.draw(batch, s"Time: ${ColorDashGame.currentPlayer.totalTime.toInt} seconds", 265, 24)
+    batch.end
+  }
 
-    shapeRederer.begin(ShapeType.Filled)
-    shapeRederer.setColor(Color.ORANGE)
-    shapeRederer.rect(0, 64, Gdx.graphics.getWidth, 8)
-    shapeRederer.end
-
+  def dispose = {
+    texture.dispose
+    font.dispose
   }
 
 }
