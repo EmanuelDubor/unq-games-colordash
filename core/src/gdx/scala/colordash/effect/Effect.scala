@@ -9,9 +9,15 @@ trait Effect {
 
 object Effects {
 
-  object Jump extends Effect {
+  object LargeJump extends Effect {
     def applyEffect(player: Player): Unit = {
-      player.velocity.add(jumpX, jumpY)
+      player.velocity.add(largeJumpX, largeJumpY)
+    }
+  }
+
+  object SmallJump extends Effect {
+    def applyEffect(player: Player): Unit = {
+      player.velocity.add(smallJumpX, smallJumpY)
     }
   }
 

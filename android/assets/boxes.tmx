@@ -55,7 +55,7 @@
  </layer>
  <layer name="level" width="128" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt2dEKgCAMQNFRPor//7khFJhtpSXB6h7wJbcFLURUBH8Wb47WOrOSo8WEYlj5Vg28K3/zIMeeXeU87dmIGvCr/O/oP/AN1p4BAAAA/pR7uvqZNlfPwx/r3G5ah8i+t3Wfo/Ec47We9+Z+bv3rOes9e4d0xOfaqYhJRi58qdcGbX3Q4rQY+NN6x9R6D4U+C4xpBgU=
+   eJzt2dEKgCAMQNFRPkr//7khFKzaSkuC1T3gi20LWoioCP4s3xy1dUYjx4pJanj5Xg28q3zzJMeeXeU87VmPGohL/3f0H/gGb88AAACAePSeTs+NzjOdwx4wJu/cbliGyLa3+z5nZx791Z73ln6u/Ws56z17hzTEl9qTipmcXMSyXxus9cGKs2IQT+0dU+09FNrMNqEF/A==
   </data>
  </layer>
 </map>

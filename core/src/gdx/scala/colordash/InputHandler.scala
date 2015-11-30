@@ -59,8 +59,9 @@ object InputHandler extends BasicInputHandler {
 
   override def keyUp(keycode: Int): Boolean = {
     keycode match {
-      case Input.Keys.NUM_1 => currentEffect = Effects.Jump
-      case Input.Keys.NUM_2 => currentEffect = Effects.Dash
+      case Input.Keys.NUM_1 => currentEffect = Effects.LargeJump
+      case Input.Keys.NUM_2 => currentEffect = Effects.SmallJump
+      case Input.Keys.NUM_3 => currentEffect = Effects.Dash
       case Input.Keys.P => ColorDashGame.togglePause
       case Input.Keys.R => ColorDashGame.newPlayer
       case _ =>

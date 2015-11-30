@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
 import gdx.scala.colordash.physics.{GravityPhysics, NormalGravityPhysics}
-import gdx.scala.colordash.tiles.{Tile, Spike}
+import gdx.scala.colordash.tiles.{Spike, Tile}
 
 class Player extends SquaredEntity {
   private var physicsComponent: GravityPhysics = NormalGravityPhysics
@@ -15,12 +15,14 @@ class Player extends SquaredEntity {
   val playerTexture = TextureRegion.split(new Texture(Constants.gameTextures), 64, 64)(0)(0)
 
   var baseVelocity = Constants.initialVelocity
-  val velocity = new Vector2(baseVelocity, 0)
+  private var tickCount = 0
 
+  val velocity = new Vector2(baseVelocity, 0)
   rect.width = Constants.tileWidth
   rect.height = Constants.tileHeigth
   rect.x = Constants.startX
   rect.y = Constants.startY
+
 
   override def render(batch: Batch): Unit = {
     batch.draw(playerTexture, rect.x, rect.y, Constants.tileWidth, Constants.tileHeigth)
@@ -40,7 +42,17 @@ class Player extends SquaredEntity {
 
   def checkDefeat: Unit = {
     val futureTile = Tile(futureRect.x.toInt, futureRect.y.toInt)
-    if (futureTile.has[Spike] || rect.equals(futureRect)) {
+    //    if (futureTile.has[Spike]) {
+    //      ColorDashGame.newPlayer
+    //    }
+
+    if (rect.equals(futureRect) || futureTile.has[Spike]) {
+      tickCount += 1
+    } else {
+      tickCount = 0
+    }
+
+    if (Constants.stuckLimit < tickCount) {
       ColorDashGame.newPlayer
     }
     Tile.free(futureTile)
