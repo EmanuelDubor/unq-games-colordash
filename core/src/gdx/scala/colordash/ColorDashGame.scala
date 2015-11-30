@@ -3,7 +3,8 @@ package gdx.scala.colordash
 import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.tiles.TileEffectMap
+import gdx.scala.colordash.gui.GUI
+import gdx.scala.colordash.tiles.{TileEffectMap, TiledWorld}
 
 object ColorDashGame extends ApplicationAdapter {
   var gameCamera: OrthographicCamera = _
@@ -36,13 +37,9 @@ object ColorDashGame extends ApplicationAdapter {
       gameCamera.position.x = currentPlayer.rect.x + Constants.gameCameraXOffset
       gameCamera.position.y = currentPlayer.rect.y + Constants.gameCameraYOffset
 
-      tiles.TiledWorld.render(players, gameCamera)
+      TiledWorld.render(players, gameCamera)
     }
-  }
-
-  override def resize(width: Int, height: Int) {
-    //    val aspectRatio =  width / height
-    //    camera = new OrthographicCamera(2f * aspectRatio, 2f)
+    GUI.render()
   }
 
   def newPlayer = {
