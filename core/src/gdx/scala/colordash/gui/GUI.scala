@@ -2,7 +2,8 @@ package gdx.scala.colordash.gui
 
 import com.badlogic.gdx.graphics.g2d.{BitmapFont, SpriteBatch, TextureRegion}
 import com.badlogic.gdx.graphics.{Color, Texture}
-import gdx.scala.colordash.{ColorDashGame, LifeCycle}
+import gdx.scala.colordash.ColorDashGame
+import gdx.scala.colordash.utils.LifeCycle
 
 object GUI extends LifeCycle {
   var font: BitmapFont = _

@@ -1,4 +1,4 @@
-package gdx.scala.colordash
+package gdx.scala.colordash.utils
 
 import com.badlogic.gdx.utils.Array
 
@@ -9,17 +9,17 @@ trait Pool[T <: Poolable] {
   val initialCapacity = 16
   val freeObjects = new Array[T](false, initialCapacity)
 
-  def newObject: T
+  def newObject(): T
 
   def obtain: T =
     if (freeObjects.isEmpty) {
-      newObject
+      newObject()
     } else {
-      freeObjects.pop
+      freeObjects.pop()
     }
 
   def free(obj: T):Unit = {
-    obj.reset
+    obj.reset()
     if (freeObjects.size < maxPoolSize) {
       freeObjects.add(obj)
     }
@@ -27,10 +27,10 @@ trait Pool[T <: Poolable] {
 
   def freeAll(collection: Iterable[T]) = collection.foreach(free)
 
-  def clear = freeObjects.clear
+  def clear() = freeObjects.clear()
 
 }
 
 trait Poolable {
-  def reset: Unit
+  def reset(): Unit
 }

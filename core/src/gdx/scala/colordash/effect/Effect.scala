@@ -2,9 +2,10 @@ package gdx.scala.colordash.effect
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.{Color, Pixmap, Texture}
+import gdx.scala.colordash.Constants
 import gdx.scala.colordash.Constants._
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.{Constants, LifeCycle}
+import gdx.scala.colordash.utils.LifeCycle
 
 trait Effect extends LifeCycle {
   val color: Color

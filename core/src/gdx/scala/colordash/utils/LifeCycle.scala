@@ -1,4 +1,4 @@
-package gdx.scala.colordash
+package gdx.scala.colordash.utils
 
 trait LifeCycle {
   def create(): Unit

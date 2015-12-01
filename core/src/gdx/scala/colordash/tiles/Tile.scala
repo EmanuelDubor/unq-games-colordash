@@ -4,8 +4,9 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.ObjectMap
+import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.{Effect, Effects}
-import gdx.scala.colordash.{Constants, Pool, Poolable}
+import gdx.scala.colordash.utils.{Pool, Poolable}
 
 import scala.collection.JavaConversions._
 import scala.reflect.ClassTag
@@ -16,7 +17,7 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
 
   var content: TileContent = Nothing()
 
-  def reset = {
+  def reset() = {
     x = 0
     y = 0
     content = Nothing()
@@ -54,7 +55,7 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
 }
 
 object Tile extends Pool[Tile] {
-  def newObject: Tile = new Tile()
+  def newObject(): Tile = new Tile()
 
   def apply(x: Int, y: Int): Tile = {
     val tile = obtain
