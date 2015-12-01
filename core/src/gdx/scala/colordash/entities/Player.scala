@@ -34,12 +34,12 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
 
     physicsComponent.collide(this)
     physicsComponent.updateVelocity(this)
-    checkDefeat
+    checkDefeat()
 
     rect.setPosition(futureRect.x, futureRect.y)
   }
 
-  def checkDefeat: Unit = {
+  def checkDefeat(): Unit = {
     val futureTile = Tile(futureRect.x.toInt, futureRect.y.toInt)
 
     if (rect.equals(futureRect) || futureTile.has[Spike]) {
@@ -49,7 +49,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
     }
 
     if (Constants.stuckLimit < tickCount) {
-      ColorDashGame.newPlayer
+      ColorDashGame.newPlayer()
     }
     Tile.free(futureTile)
   }

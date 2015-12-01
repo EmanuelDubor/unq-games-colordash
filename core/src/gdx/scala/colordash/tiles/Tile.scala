@@ -1,11 +1,13 @@
 package gdx.scala.colordash.tiles
 
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.ObjectMap
 import gdx.scala.colordash.effect.{Effect, Effects}
 import gdx.scala.colordash.{Constants, Pool, Poolable}
 
+import scala.collection.JavaConversions._
 import scala.reflect.ClassTag
 
 class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
@@ -89,6 +91,12 @@ object TileEffectMap extends ObjectMap[(Int, Int), Effect] {
   def get(tile: Tile): Effect = get((tile.x, tile.y), Effects.None)
 
   def put(tile: Tile, effect: Effect): Effect = put((tile.x, tile.y), effect)
+
+  def render(batch: Batch) = {
+    this.foreach { entry =>
+      entry.value.render(batch, entry.key._1, entry.key._2)
+    }
+  }
 }
 
 
