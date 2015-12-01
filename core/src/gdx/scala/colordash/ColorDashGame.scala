@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
 import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.gui.GUI
 import gdx.scala.colordash.tiles.{TileEffectMap, TiledWorld}
+import gdx.scala.colordash.ui.GUI
+import gdx.scala.colordash.utils.LifeCycle
 
 object ColorDashGame extends ApplicationAdapter with LifeCycle {
   var gameCamera: OrthographicCamera = _
@@ -25,7 +26,7 @@ object ColorDashGame extends ApplicationAdapter with LifeCycle {
     gameCamera.setToOrtho(false, Constants.viewportWidth, Constants.viewportHeigth)
     gameCamera.update()
 
-    Gdx.input.setInputProcessor(InputHandler)
+    Gdx.input.setInputProcessor(GUI)
     TiledWorld.create()
     GUI.create()
     Effects.create()
@@ -49,7 +50,7 @@ object ColorDashGame extends ApplicationAdapter with LifeCycle {
 
     TiledWorld.render(players, gameCamera)
 
-    GUI.render
+    GUI.render()
   }
 
   def newPlayer() = {

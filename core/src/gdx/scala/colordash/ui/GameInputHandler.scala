@@ -1,8 +1,9 @@
-package gdx.scala.colordash
+package gdx.scala.colordash.ui
 
 import com.badlogic.gdx.Input.Buttons
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.{Input, InputProcessor}
+import gdx.scala.colordash.ColorDashGame
 import gdx.scala.colordash.effect.{Effect, Effects}
 import gdx.scala.colordash.tiles.{Activator, Tile}
 
@@ -40,8 +41,8 @@ trait BasicInputHandler extends InputProcessor {
   }
 }
 
-object InputHandler extends BasicInputHandler {
-  var currentEffect: Effect = effect.Effects.None
+trait GameInputHandler extends BasicInputHandler {
+  var currentEffect: Effect = Effects.None
 
   override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
     button match {
@@ -62,8 +63,8 @@ object InputHandler extends BasicInputHandler {
       case Input.Keys.NUM_1 => currentEffect = Effects.LargeJump
       case Input.Keys.NUM_2 => currentEffect = Effects.SmallJump
       case Input.Keys.NUM_3 => currentEffect = Effects.Dash
-      case Input.Keys.P => ColorDashGame.togglePause
-      case Input.Keys.R => ColorDashGame.newPlayer
+      case Input.Keys.P => ColorDashGame.togglePause()
+      case Input.Keys.R => ColorDashGame.newPlayer()
       case _ =>
     }
     true

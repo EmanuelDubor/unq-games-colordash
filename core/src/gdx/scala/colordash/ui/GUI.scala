@@ -1,26 +1,25 @@
-package gdx.scala.colordash.gui
+package gdx.scala.colordash.ui
 
-import com.badlogic.gdx.graphics.g2d.{BitmapFont, SpriteBatch, TextureRegion}
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.g2d.{BitmapFont, SpriteBatch}
 import com.badlogic.gdx.graphics.{Color, Texture}
 import gdx.scala.colordash.ColorDashGame
 import gdx.scala.colordash.utils.LifeCycle
 
-object GUI extends LifeCycle {
+object GUI extends GameInputHandler with LifeCycle {
   var font: BitmapFont = _
   var texture: Texture = _
-  var base: TextureRegion = _
 
   def create() = {
     font = new BitmapFont
     font.setColor(Color.ORANGE)
     texture = new Texture("gui_base.png")
-    base = new TextureRegion(texture)
   }
 
   def render() = {
     val batch = new SpriteBatch
     batch.begin()
-    batch.draw(base, 0, 0, base.getRegionWidth, base.getRegionHeight)
+    batch.draw(texture, 0, 0, texture.getWidth, texture.getHeight)
     font.draw(batch, s"Tries: ${ColorDashGame.players.size}", 265, 48)
     font.draw(batch, s"Time: ${ColorDashGame.currentPlayer.totalTime.toInt} seconds", 265, 24)
     batch.end()
@@ -31,4 +30,12 @@ object GUI extends LifeCycle {
     font.dispose()
   }
 
+  override def touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = {
+    if (screenY < Gdx.graphics.getHeight - texture.getHeight) {
+      super.touchDown(screenX, screenY, pointer, button)
+    } else {
+      ColorDashGame.togglePause()
+      true
+    }
+  }
 }
