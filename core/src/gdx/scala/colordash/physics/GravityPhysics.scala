@@ -16,6 +16,10 @@ trait GravityPhysics {
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit
 
+  protected def onCollideUp(player: Player)(implicit delta: Float): Unit
+
+  protected def onCollideDown(player: Player)(implicit delta: Float): Unit
+
   def update(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val futureTile = Tile(futureRect)
     val tileRight = futureTile.tileRight
@@ -24,13 +28,27 @@ trait GravityPhysics {
 
     if (tileRight.isSolid && tileRight.overlaps(futureRect)) {
       futureRect.x = futureTile.x
+      player.velocity.x = 0
+    } else if (player.baseVelocity < player.velocity.x) {
+      player.velocity.x += Constants.friction * delta
+    } else {
+      player.velocity.x = player.baseVelocity
     }
+
     if (tileUp.isSolid && tileUp.overlaps(futureRect)) {
       futureRect.y = futureTile.y
-    }
-    if (tileDown.isSolid && tileDown.overlaps(futureRect)) {
+      onCollideUp(player)
+    } else if (tileDown.isSolid && tileDown.overlaps(futureRect)) {
       futureRect.y = futureTile.y
+      onCollideDown(player)
+    } else {
+      player.velocity.y += gravity * delta
     }
+
+    Tile.free(futureTile)
+    Tile.free(tileRight)
+    Tile.free(tileUp)
+    Tile.free(tileDown)
 
   }
 
@@ -58,10 +76,26 @@ object NormalGravityPhysics extends GravityPhysics {
   val gravity = Constants.gravity * -1
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y)
+
+  protected def onCollideUp(player: Player)(implicit delta: Float): Unit = {
+    player.velocity.y = gravity * delta
+  }
+
+  protected def onCollideDown(player: Player)(implicit delta: Float): Unit = {
+    player.velocity.y = 0
+  }
 }
 
 object ReversedGravityPhysics extends GravityPhysics {
   val gravity: Float = Constants.gravity
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y * -1)
+
+  protected def onCollideUp(player: Player)(implicit delta: Float): Unit = {
+    player.velocity.y = 0
+  }
+
+  protected def onCollideDown(player: Player)(implicit delta: Float): Unit = {
+    player.velocity.y = gravity * delta
+  }
 }
