@@ -7,6 +7,7 @@ object Constants {
   val mapFile = "boxes.tmx"
   val gameTextures = "boxes_map.png"
   val guiBase="gui_base.png"
+  val buttons="buttons.png"
 
   val unitScale = 1 / 64f
   val viewportWidth = 20f
