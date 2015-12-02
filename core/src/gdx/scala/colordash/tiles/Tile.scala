@@ -3,10 +3,10 @@ package gdx.scala.colordash.tiles
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.utils.ObjectMap
+import com.badlogic.gdx.utils.Pool.Poolable
+import com.badlogic.gdx.utils.{ObjectMap, Pool}
 import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.{Effect, Effects}
-import gdx.scala.colordash.utils.{Pool, Poolable}
 
 import scala.collection.JavaConversions._
 import scala.reflect.ClassTag
