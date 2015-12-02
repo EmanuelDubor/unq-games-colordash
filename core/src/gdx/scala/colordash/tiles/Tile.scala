@@ -7,20 +7,20 @@ import com.badlogic.gdx.utils.Pool.Poolable
 import com.badlogic.gdx.utils.{ObjectMap, Pool}
 import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.{Effect, Effects}
+import gdx.scala.colordash.tiles.TileContent._
 
 import scala.collection.JavaConversions._
-import scala.reflect.ClassTag
 
 class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val width: Float = Constants.tileWidth
   val height: Float = Constants.tileHeigth
 
-  var content: TileContent = Nothing()
+  var content: TileContent = Nothing
 
   def reset() = {
     x = 0
     y = 0
-    content = Nothing()
+    content = Nothing
   }
 
   def tileUp = Tile(x, y + height.toInt)
@@ -44,10 +44,7 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
     rect.overlaps(r)
   }
 
-  def has[T <: TileContent : ClassTag]: Boolean = {
-    val klass = implicitly[ClassTag[T]].runtimeClass
-    klass.isInstance(content)
-  }
+  def has(tileContent: TileContent): Boolean = content.equals(tileContent)
 
   def effect_=(effect: Effect) = TileEffectMap.put(this, effect)
 
@@ -77,12 +74,12 @@ object Tile extends Pool[Tile] {
   implicit class CellParser(optionCell: Option[Cell]) {
     def content: TileContent = optionCell match {
       case Some(cell) => cell.getTile.getProperties.get("type") match {
-        case "activator" => Activator()
-        case "spike" => Spike()
-        case "brick" => Brick()
-        case _ => Nothing()
+        case "activator" => Activator
+        case "spike" => Spike
+        case "brick" => Brick
+        case _ => Nothing
       }
-      case _ => Nothing()
+      case _ => Nothing
     }
   }
 

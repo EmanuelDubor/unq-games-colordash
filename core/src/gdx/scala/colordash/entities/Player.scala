@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
 import gdx.scala.colordash.physics.{GravityPhysics, NormalGravityPhysics}
-import gdx.scala.colordash.tiles.{Spike, Tile}
+import gdx.scala.colordash.tiles.{Tile, TileContent}
 
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
   private var physicsComponent: GravityPhysics = NormalGravityPhysics
@@ -42,7 +42,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   def checkDefeat(): Unit = {
     val futureTile = Tile(futureRect.x.toInt, futureRect.y.toInt)
 
-    if (rect.equals(futureRect) || futureTile.has[Spike]) {
+    if (rect.equals(futureRect) || futureTile.has(TileContent.Spike)) {
       tickCount += 1
     } else {
       tickCount = 0

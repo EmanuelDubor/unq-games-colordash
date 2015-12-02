@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.{Input, InputProcessor}
 import gdx.scala.colordash.ColorDashGame
 import gdx.scala.colordash.effect.{Effect, Effects}
-import gdx.scala.colordash.tiles.{Activator, Tile}
+import gdx.scala.colordash.tiles.{Tile, TileContent}
 
 trait BasicInputHandler extends InputProcessor {
   def keyTyped(character: Char): Boolean = {
@@ -49,7 +49,7 @@ trait GameInputHandler extends BasicInputHandler {
       case Buttons.LEFT =>
         val gameCoords = ColorDashGame.gameCamera.unproject(new Vector3(screenX, screenY, 0))
         val clickedTile = Tile(gameCoords.x.toInt, gameCoords.y.toInt)
-        if (clickedTile.has[Activator]) {
+        if (clickedTile.has(TileContent.Activator)) {
           clickedTile.effect = currentEffect
         }
         Tile.free(clickedTile)
