@@ -40,7 +40,7 @@ object Effects extends LifeCycle {
     val color: Color = Color.RED
 
     def applyEffect(player: Player): Unit = {
-      player.velocity.add(largeJumpX, largeJumpY)
+      player.addVelocity(largeJumpX, largeJumpY)
     }
   }
 
@@ -48,7 +48,7 @@ object Effects extends LifeCycle {
     val color: Color = Color.MAGENTA
 
     def applyEffect(player: Player): Unit = {
-      player.velocity.add(smallJumpX, smallJumpY)
+      player.addVelocity(smallJumpX, smallJumpY)
     }
   }
 
@@ -56,7 +56,7 @@ object Effects extends LifeCycle {
     val color: Color = Color.CYAN
 
     def applyEffect(player: Player): Unit = {
-      player.velocity.add(dashX, dashY)
+      player.addVelocity(dashX, dashY)
     }
   }
 

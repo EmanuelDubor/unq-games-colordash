@@ -3,7 +3,7 @@ package gdx.scala.colordash.entities
 import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
-import gdx.scala.colordash.physics.{GravityPhysics, NormalGravityPhysics}
+import gdx.scala.colordash.physics._
 import gdx.scala.colordash.tiles.{Tile, TileContent}
 
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
@@ -13,7 +13,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   var baseVelocity = Constants.initialVelocity
   private var tickCount = 0
 
-  var totalTime=0f
+  var totalTime = 0f
 
   val velocity = new Vector2(baseVelocity, 0)
   rect.width = Constants.tileWidth
@@ -27,7 +27,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   }
 
   def update(implicit delta: Float): Unit = {
-    totalTime+=delta
+    totalTime += delta
     physicsComponent.processActions(this)
 
     futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
@@ -42,17 +42,19 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   def checkDefeat(): Unit = {
     val futureTile = Tile(futureRect.x.toInt, futureRect.y.toInt)
 
-    if (rect.equals(futureRect) || futureTile.has(TileContent.Spike)) {
+    if (rect.equals(futureRect)) {
       tickCount += 1
     } else {
       tickCount = 0
     }
 
-    if (Constants.stuckLimit < tickCount) {
+    if (Constants.stuckLimit < tickCount || futureTile.has(TileContent.Spike)) {
       ColorDashGame.newPlayer()
     }
     Tile.free(futureTile)
   }
+
+  def addVelocity(x: Float, y: Float) = physicsComponent.addTo(velocity, x, y)
 
 }
 

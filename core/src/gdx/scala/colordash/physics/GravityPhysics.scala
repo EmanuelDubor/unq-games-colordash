@@ -1,6 +1,6 @@
 package gdx.scala.colordash.physics
 
-import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.entities.Player
@@ -24,9 +24,7 @@ trait GravityPhysics {
     updateVelocityY(player)
   }
 
-  protected def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
-
-  protected def updateVelocityY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit
+  def addTo(vector: Vector2, x: Float, y: Float): Unit
 
   private def collideX(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val rect = player.rect
@@ -65,30 +63,6 @@ trait GravityPhysics {
     Tile.free(futureTile)
   }
 
-  def processActions(player: Player): Unit = {
-    tiles.clear()
-
-    val currentTile = Tile(player.rect)
-    tiles.add(currentTile.tileRight)
-    tiles.add(currentTile.tileUp)
-    tiles.add(currentTile.tileDown)
-
-    tiles.filter { tile =>
-      tile.has(Activator) &&
-        tile.touches(player.rect)
-    }.foreach { tile =>
-      tile.effect.applyEffect(player)
-      tile.effect = Effects.None
-    }
-
-    Tile.freeAll(tiles)
-  }
-}
-
-object NormalGravityPhysics extends GravityPhysics {
-
-  val gravity = Constants.gravity * -1
-
   protected def collideY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
     val rect = player.rect
     val velocity = player.velocity
@@ -123,14 +97,13 @@ object NormalGravityPhysics extends GravityPhysics {
   }
 
   protected def updateVelocityY(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
-
     val velocity = player.velocity
     val futureTile = Tile(futureRect)
     val tileUp = futureTile.tileUp
     val tileDown = futureTile.tileDown
 
     (tileUp.has(Nothing), tileDown.has(Nothing)) match {
-      case (false, _) if 0 < velocity.y => velocity.y = 0
+      case (false, _) if 0 < velocity.y && futureRect.y + Constants.tileHeigth <= tileUp.y => velocity.y = 0
       case (_, false) if velocity.y < 0 && futureRect.y <= tileDown.y + Constants.tileHeigth => velocity.y = 0
       case (_, _) => velocity.y += gravity * delta
     }
@@ -140,8 +113,34 @@ object NormalGravityPhysics extends GravityPhysics {
     Tile.free(futureTile)
   }
 
+  def processActions(player: Player): Unit = {
+    tiles.clear()
+
+    val currentTile = Tile(player.rect)
+    tiles.add(currentTile.tileRight)
+    tiles.add(currentTile.tileUp)
+    tiles.add(currentTile.tileDown)
+
+    tiles.filter { tile =>
+      tile.has(Activator) &&
+        tile.touches(player.rect)
+    }.foreach { tile =>
+      tile.effect.applyEffect(player)
+      tile.effect = Effects.None
+    }
+
+    Tile.freeAll(tiles)
+  }
 }
 
-//object ReversedGraityPhysics extends GravityPhysics {
+object NormalGravityPhysics extends GravityPhysics {
+  val gravity = Constants.gravity * -1
 
-//}
+  def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y)
+}
+
+object ReversedGravityPhysics extends GravityPhysics {
+  val gravity: Float = Constants.gravity
+
+  def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y * -1)
+}
