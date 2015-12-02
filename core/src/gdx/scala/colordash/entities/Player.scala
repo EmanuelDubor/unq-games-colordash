@@ -32,8 +32,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
 
     futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
 
-    physicsComponent.collide(this)
-    physicsComponent.updateVelocity(this)
+    physicsComponent.update(this)
     checkDefeat()
 
     rect.setPosition(futureRect.x, futureRect.y)

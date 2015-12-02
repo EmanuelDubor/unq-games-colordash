@@ -44,6 +44,8 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
     rect.overlaps(r)
   }
 
+  def isSolid = has(Brick) || has(Activator)
+
   def has(tileContent: TileContent): Boolean = content.equals(tileContent)
 
   def effect_=(effect: Effect) = TileEffectMap.put(this, effect)
