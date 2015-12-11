@@ -11,7 +11,8 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
 
   var baseVelocity = Constants.initialVelocity
-  private var tickCount = 0
+  private var stuckTick = 0
+  private var spikeTick = 0
 
   var totalTime = 0f
 
@@ -41,12 +42,21 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
     val futureTile = Tile(futureRect)
 
     if (rect.equals(futureRect)) {
-      tickCount += 1
+      stuckTick += 1
     } else {
-      tickCount = 0
+      stuckTick = 0
     }
 
-    if (Constants.stuckLimit < tickCount || futureTile.has(TileContent.Spike)) {
+    if (futureTile.has(TileContent.Spike)) {
+      spikeTick += 1
+    } else {
+      spikeTick = 0
+    }
+
+    if (Constants.maxStuck < stuckTick ||
+      Constants.maxSpike < spikeTick ||
+      rect.y < 0 || 15 < rect.y
+    ) {
       ColorDashGame.newPlayer()
     }
     Tile.free(futureTile)

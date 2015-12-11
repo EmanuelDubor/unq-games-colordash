@@ -24,7 +24,7 @@ object ColorDashGame extends ApplicationAdapter with LifeCycle {
 
     gameCamera = new OrthographicCamera()
     gameCamera.setToOrtho(false, Constants.viewportWidth, Constants.viewportHeigth)
-    gameCamera.update()
+    gameCamera.position.y = Constants.viewportHeigth / 2 + Constants.gameCameraYOffset
 
     Gdx.input.setInputProcessor(GUI)
     TiledWorld.create()
@@ -40,13 +40,12 @@ object ColorDashGame extends ApplicationAdapter with LifeCycle {
     Gdx.gl.glClearColor(110 / 255f, 110 / 255f, 110 / 255f, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-    gameCamera.update()
     implicit val delta = Gdx.graphics.getDeltaTime
     if (!paused) {
       currentPlayer.update
     }
     gameCamera.position.x = currentPlayer.rect.x + Constants.gameCameraXOffset
-    gameCamera.position.y = currentPlayer.rect.y + Constants.gameCameraYOffset
+    gameCamera.update()
 
     TiledWorld.render(players, gameCamera)
 
