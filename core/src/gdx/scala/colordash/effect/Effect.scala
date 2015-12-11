@@ -34,7 +34,7 @@ trait Effect extends LifeCycle {
 
 object Effects extends LifeCycle {
 
-  val all = List(LargeJump, SmallJump, Dash, None)
+  val all = List(LargeJump, SmallJump, Dash, ReverseGravity, None)
 
   object LargeJump extends Effect {
     val color: Color = Color.RED
@@ -60,10 +60,18 @@ object Effects extends LifeCycle {
     }
   }
 
+  object ReverseGravity extends Effect {
+    val color: Color = Color.YELLOW
+
+    def applyEffect(player: Player): Unit = {
+      player.physicsComponent = player.physicsComponent.reversedGravity()
+    }
+  }
+
   object None extends Effect {
     val color: Color = Color.WHITE
 
-    override def applyEffect(player: Player): Unit = {}
+    def applyEffect(player: Player): Unit = {}
   }
 
   override def create(): Unit = all.foreach(_.create())

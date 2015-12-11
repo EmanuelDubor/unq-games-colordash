@@ -7,7 +7,7 @@ import gdx.scala.colordash.physics._
 import gdx.scala.colordash.tiles.{Tile, TileContent}
 
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
-  private var physicsComponent: GravityPhysics = NormalGravityPhysics
+  var physicsComponent: GravityPhysics = NormalGravityPhysics
   val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
 
   var baseVelocity = Constants.initialVelocity

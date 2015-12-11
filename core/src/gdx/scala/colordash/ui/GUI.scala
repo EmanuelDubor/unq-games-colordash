@@ -21,6 +21,7 @@ object GUI extends GameInputHandler with LifeCycle {
   var largeJumpButton: ToggleButton = _
   var smallJumpButton: ToggleButton = _
   var dashButton: ToggleButton = _
+  var reverseGravityButton: ToggleButton = _
 
   def create() = {
     font = new BitmapFont
@@ -46,6 +47,7 @@ object GUI extends GameInputHandler with LifeCycle {
         currentEffect = Effects.LargeJump
         smallJumpButton.toggleOff()
         dashButton.toggleOff()
+        reverseGravityButton.toggleOff()
       }
     }
     smallJumpButton = new ToggleButton(1 * buttonSize, 0, buttonsRegions(0)(4), buttonsRegions(1)(4)) {
@@ -53,6 +55,7 @@ object GUI extends GameInputHandler with LifeCycle {
         currentEffect = Effects.SmallJump
         largeJumpButton.toggleOff()
         dashButton.toggleOff()
+        reverseGravityButton.toggleOff()
       }
     }
     dashButton = new ToggleButton(2 * buttonSize, 0, buttonsRegions(0)(5), buttonsRegions(1)(5)) {
@@ -60,10 +63,19 @@ object GUI extends GameInputHandler with LifeCycle {
         currentEffect = Effects.Dash
         largeJumpButton.toggleOff()
         smallJumpButton.toggleOff()
+        reverseGravityButton.toggleOff()
+      }
+    }
+    reverseGravityButton = new ToggleButton(3 * buttonSize, 0, buttonsRegions(0)(6), buttonsRegions(1)(6)) {
+      def onToggleOn() = {
+        currentEffect = Effects.ReverseGravity
+        largeJumpButton.toggleOff()
+        smallJumpButton.toggleOff()
+        dashButton.toggleOff()
       }
     }
 
-    guiButtons = List(pauseButton, retryButton, largeJumpButton, smallJumpButton, dashButton)
+    guiButtons = List(pauseButton, retryButton, largeJumpButton, smallJumpButton, dashButton, reverseGravityButton)
   }
 
   def render() = {

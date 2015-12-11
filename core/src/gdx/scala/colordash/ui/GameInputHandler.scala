@@ -63,6 +63,7 @@ trait GameInputHandler extends BasicInputHandler {
       case Input.Keys.NUM_1 => GUI.largeJumpButton.click()
       case Input.Keys.NUM_2 => GUI.smallJumpButton.click()
       case Input.Keys.NUM_3 => GUI.dashButton.click()
+      case Input.Keys.NUM_4 => GUI.reverseGravityButton.click()
       case Input.Keys.P => GUI.pauseButton.click()
       case Input.Keys.R => GUI.retryButton.click()
       case _ =>
