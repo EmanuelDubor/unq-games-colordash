@@ -8,7 +8,7 @@ import gdx.scala.colordash.tiles.{Tile, TileContent}
 
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
   private var physicsComponent: GravityPhysics = NormalGravityPhysics
-  private implicit val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
+  val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
 
   var baseVelocity = Constants.initialVelocity
   private var tickCount = 0
@@ -20,7 +20,6 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   rect.height = Constants.tileHeigth
   rect.x = Constants.startX
   rect.y = Constants.startY
-
 
   override def render(batch: Batch): Unit = {
     batch.draw(playerTexture, rect.x, rect.y, Constants.tileWidth, Constants.tileHeigth)
@@ -39,7 +38,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   }
 
   def checkDefeat(): Unit = {
-    val futureTile = Tile(futureRect.x.toInt, futureRect.y.toInt)
+    val futureTile = Tile(futureRect)
 
     if (rect.equals(futureRect)) {
       tickCount += 1

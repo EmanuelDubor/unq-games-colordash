@@ -38,8 +38,8 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
       y + height > r.y
 
   def touches(r: Rectangle) = {
-    val xMargin = Constants.tileWidth * Constants.marginFactor
-    val yMargin = Constants.tileHeigth * Constants.marginFactor
+    val xMargin = Constants.tileWidth * Constants.touchMargin
+    val yMargin = Constants.tileHeigth * Constants.touchMargin
     val rect = new Rectangle(x - xMargin, y - yMargin, width + (2 * xMargin), height + (2 * yMargin))
     rect.overlaps(r)
   }

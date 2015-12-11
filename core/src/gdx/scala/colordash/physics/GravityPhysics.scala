@@ -1,6 +1,6 @@
 package gdx.scala.colordash.physics
 
-import com.badlogic.gdx.math.{Rectangle, Vector2}
+import com.badlogic.gdx.math.Vector2
 import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.entities.Player
@@ -16,31 +16,99 @@ trait GravityPhysics {
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit
 
-  protected def onCollideUp(player: Player)(implicit delta: Float): Unit
+  def reversedGravity(): GravityPhysics
 
-  protected def onCollideDown(player: Player)(implicit delta: Float): Unit
+  protected def onUpdateVelocityUp(player: Player)(implicit delta: Float): Unit
 
-  def update(player: Player)(implicit futureRect: Rectangle, delta: Float): Unit = {
-    val futureTile = Tile(futureRect)
+  protected def onUpdateVelocityDown(player: Player)(implicit delta: Float): Unit
+
+  protected def onCollideRight(player: Player, tile: Tile): Unit = {
+    player.futureRect.x = tile.x - Constants.tileWidth
+  }
+
+  protected def onCollideUp(player: Player, tile: Tile): Unit = {
+    player.futureRect.y = tile.y - Constants.tileHeigth
+  }
+
+  protected def onCollideDown(player: Player, tile: Tile): Unit = {
+    player.futureRect.y = tile.y + Constants.tileHeigth
+  }
+
+  protected def onUpdateVelocityRight(player: Player)(implicit delta: Float): Unit = {
+    player.velocity.x = 0
+  }
+
+  def update(player: Player)(implicit delta: Float): Unit = {
+    collideY(player)
+    collideX(player)
+    updateVelocity(player)
+  }
+
+  protected def collideX(player: Player): Unit = {
+    val currentTile = Tile(player.rect)
+    val futureTile = Tile(player.futureRect)
+
+    Tile.findTiles(
+      currentTile.x,
+      currentTile.y,
+      futureTile.x + Constants.tileWidth.toInt,
+      currentTile.y + Constants.tileHeigth.toInt
+    )
+
+    val collidingTile = tiles.find(tile => tile.isSolid && tile.overlaps(player.futureRect))
+    collidingTile match {
+      case Some(tile) => onCollideRight(player, tile)
+      case None =>
+    }
+
+    Tile.free(currentTile)
+    Tile.free(futureTile)
+    Tile.freeAll(tiles)
+  }
+
+  protected def collideY(player: Player): Unit = {
+    val currentTile = Tile(player.rect)
+    val futureTile = Tile(player.futureRect)
+    val startY = Math.min(currentTile.y, futureTile.y) - Constants.tileHeigth.toInt
+    var endY = Math.max(currentTile.y, futureTile.y) + Constants.tileHeigth.toInt
+
+    Tile.findTiles(
+      currentTile.x,
+      startY,
+      currentTile.x + Constants.tileWidth.toInt,
+      endY
+    )
+
+    val collidingTile = tiles.find(tile => tile.isSolid && tile.overlaps(player.futureRect))
+    collidingTile match {
+      case Some(tile) if 0 < player.velocity.y => onCollideUp(player, tile)
+      case Some(tile) if player.velocity.y < 0 => onCollideDown(player, tile)
+      case _ =>
+    }
+
+    Tile.free(currentTile)
+    Tile.free(futureTile)
+    Tile.freeAll(tiles)
+  }
+
+  def updateVelocity(player: Player)(implicit delta: Float): Unit = {
+    val futureTile = Tile(player.futureRect)
     val tileRight = futureTile.tileRight
     val tileUp = futureTile.tileUp
     val tileDown = futureTile.tileDown
 
-    if (tileRight.isSolid && tileRight.overlaps(futureRect)) {
-      futureRect.x = futureTile.x
-      player.velocity.x = 0
+    if (tileRight.isSolid && tileRight.touches(player.futureRect)) {
+      onUpdateVelocityRight(player)
     } else if (player.baseVelocity < player.velocity.x) {
       player.velocity.x += Constants.friction * delta
     } else {
       player.velocity.x = player.baseVelocity
     }
 
-    if (tileUp.isSolid && tileUp.overlaps(futureRect)) {
-      futureRect.y = futureTile.y
-      onCollideUp(player)
-    } else if (tileDown.isSolid && tileDown.overlaps(futureRect)) {
-      futureRect.y = futureTile.y
-      onCollideDown(player)
+    if (0 < player.velocity.y && tileUp.isSolid && tileUp.touches(player.futureRect)) {
+      onUpdateVelocityUp(player)
+    } else if (player.velocity.y < 0 && tileDown.isSolid && tileDown.touches(player.futureRect)) {
+      onUpdateVelocityDown(player)
     } else {
       player.velocity.y += gravity * delta
     }
@@ -77,13 +145,15 @@ object NormalGravityPhysics extends GravityPhysics {
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y)
 
-  protected def onCollideUp(player: Player)(implicit delta: Float): Unit = {
+  protected def onUpdateVelocityUp(player: Player)(implicit delta: Float): Unit = {
     player.velocity.y = gravity * delta
   }
 
-  protected def onCollideDown(player: Player)(implicit delta: Float): Unit = {
+  protected def onUpdateVelocityDown(player: Player)(implicit delta: Float): Unit = {
     player.velocity.y = 0
   }
+
+  def reversedGravity(): GravityPhysics = ReversedGravityPhysics
 }
 
 object ReversedGravityPhysics extends GravityPhysics {
@@ -91,11 +161,13 @@ object ReversedGravityPhysics extends GravityPhysics {
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y * -1)
 
-  protected def onCollideUp(player: Player)(implicit delta: Float): Unit = {
+  protected def onUpdateVelocityUp(player: Player)(implicit delta: Float): Unit = {
     player.velocity.y = 0
   }
 
-  protected def onCollideDown(player: Player)(implicit delta: Float): Unit = {
+  protected def onUpdateVelocityDown(player: Player)(implicit delta: Float): Unit = {
     player.velocity.y = gravity * delta
   }
+
+  def reversedGravity(): GravityPhysics = NormalGravityPhysics
 }

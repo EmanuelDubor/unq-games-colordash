@@ -3,7 +3,7 @@ package gdx.scala.colordash
 object Constants {
   val tileHeigth = 1f
   val tileWidth = 1f
-  val marginFactor = 0.1f
+  val touchMargin = 0.1f
   val mapFile = "boxes.tmx"
   val gameTextures = "boxes_map.png"
   val guiBase="gui_base.png"
