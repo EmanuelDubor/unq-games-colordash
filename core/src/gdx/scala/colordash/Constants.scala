@@ -4,7 +4,9 @@ object Constants {
   val tileHeigth = 1f
   val tileWidth = 1f
   val touchMargin = 0.1f
-  val mapFile = "boxes.tmx"
+  val mapExtension = ".tmx"
+  val sectionsPath = "sections/"
+  val startArea = "startArea"
   val gameTextures = "boxes_map.png"
   val guiBase = "gui_base.png"
   val buttons = "buttons.png"

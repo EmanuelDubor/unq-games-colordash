@@ -13,7 +13,7 @@ object TiledWorld extends LifeCycle {
   var mapRenderer: OrthogonalTiledMapRenderer = _
 
   def create(): Unit = {
-    levelMap = new TmxMapLoader().load(Constants.mapFile)
+    levelMap = new TmxMapLoader().load(Constants.sectionsPath + "section1" + Constants.mapExtension)
     mapRenderer = new OrthogonalTiledMapRenderer(levelMap, Constants.unitScale)
   }
 
