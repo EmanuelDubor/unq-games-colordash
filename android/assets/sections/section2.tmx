@@ -25,43 +25,43 @@
  </tileset>
  <layer name="background" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJzjYWBg4CGAsQFy1BBjNq3tJwVQy/5RMApGwSgYBaSBgSh/6V3/kFNHUmI/OgYAkTAEIQ==
+   eJzjYWBg4MGDKQX4zMZmPq3tJ1UvNewfBaNgFIyCUUAaGIjyl971D6n1I6X2o2MAzWcCcQ==
   </data>
  </layer>
  <layer name="borderTop" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BoAHYkTIrcKKAOGA1/+gF2Btxhii5HjBpS7aQ2IMad9AKjaRUBAN6yAQs=
+   eJxjYBgFpAJ2IsVGwSgYBaOAHMCOhLHJESuGywxS7aQU4DKblnaS6paRCABjwwCb
   </data>
  </layer>
  <layer name="borderBottom" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBjZQBAJD7SdtHQLqWYLMhDnTmLVjALKAb7wHA1r2oPR8B8Fww0AAF5PAoc=
+   eJxjYBjZQBAJD7SdtHQLqWbjU0+KGL3DdhSMglEwvAGx5c8oIAwAceQBdw==
   </data>
  </layer>
  <layer name="borderLeft" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBhagJtKasjVQyv7idVPD/tHASagNE5GAWVgNPzpBwai/BlM5e9gtp/aAACBdQDd
+   eJxjYBiegJvG6mlpHj692OSIFRsFQxcMdHwOtP2jgH5gIMqfwVT+Dgf7iQUAzZ4AsQ==
   </data>
  </layer>
  <layer name="borderRight" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgagJdKagaD/eS4k1L7aRk2IxGMhvXAgtHwpy8Y6PJnqJe/gxUAABFUAQU=
+   eJxjYBj8gHeY2U+qedjUEytGrp2jYOiCgY7rgbZ/FFAXDHT5MxjL3+ECAETtANE=
   </data>
  </layer>
  <layer name="borderCorners" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgwEI0NEuIQLy2NwihEeOGDWE7CQE2ND4HETKDReAHqZCRMpRC4yGPyqgZfijhycIcOCRI0YNoTjBZy61wXBMH0MVAAB3egGB
+   eJxjYBgFpAA2KM1BQIxUIECBXlKBEAF5dLcIYZEjVoxYOwc7YCOsBA4oSQejADsgJX8Mt7RGqKzBJ4bNDGLspCWgRjlJqPwZBcQBAEWqAYE=
   </data>
  </layer>
  <layer name="level" width="32" height="16">
   <properties>
    <property name="endBottom" value="14"/>
    <property name="endTop" value="1"/>
-   <property name="startBottom" value="15"/>
+   <property name="startBottom" value="14"/>
    <property name="startTop" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYCAMeLBgctTgMpuZgB6QOAsSxmU/ITXI7mTGogaX+7Gpw2YuLj654YLsVmTAzIBpJiE1o4BygCusCcmNAuqA0fCnHxiI8mcgyl9i6x8mJIzLfkJqkN2Crf7BBWhZ/wIAyeYEpQ==
+   eJxjYMAPeCjEhABIDTMe9SAxFjIxLvOQ7cTnVwYsakgByGaQEibo7kQHpIiRYucowA+YiMS0AtTKc0PVfmLz/SigHAxE+TMQ5S8x9Q+x+R4dk1r/4PIDLetfAC+jBTU=
   </data>
  </layer>
 </map>

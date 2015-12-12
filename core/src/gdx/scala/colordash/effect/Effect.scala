@@ -16,7 +16,7 @@ trait Effect extends LifeCycle {
   def applyEffect(player: Player): Unit
 
   def render(batch: Batch, x: Int, y: Int) = {
-    batch.draw(texture, x, y, Constants.tileWidth, Constants.tileHeigth)
+    batch.draw(texture, x, y, Constants.tileWidth, Constants.tileHeight)
   }
 
   def create() = {

@@ -1,45 +1,44 @@
-package gdx.scala.colordash.tiles
+package gdx.scala.colordash.tiledWorld
 
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.Batch
+import com.badlogic.gdx.graphics.g2d.{Batch, SpriteBatch}
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
-import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapTileLayer, TmxMapLoader}
 import com.badlogic.gdx.utils.ObjectMap
 import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.{Effect, Effects}
 import gdx.scala.colordash.entities.Renderizable
+import gdx.scala.colordash.tiles.Tile
 import gdx.scala.colordash.utils.LifeCycle
 
 import scala.collection.JavaConversions._
 
 object TiledWorld extends TileEffectMap with LifeCycle {
-  var levelMap: TiledMap = _
-  var mapRenderer: OrthogonalTiledMapRenderer = _
+  var levelMap: EndlessTiledMap = _
+  var mapRenderer: OrthogonalEndlessTiledMapRenderer = _
+  var batch: Batch = _
 
   def create(): Unit = {
-    levelMap = new TmxMapLoader().load(Constants.sectionsPath + "section1" + Constants.mapExtension)
-    mapRenderer = new OrthogonalTiledMapRenderer(levelMap, Constants.unitScale)
+    SectionManager.create()
+    batch = new SpriteBatch()
+    levelMap = new EndlessTiledMap(SectionManager.startArea, Constants.sectionWidth, Constants.sectionHeight)
+    mapRenderer = new OrthogonalEndlessTiledMapRenderer(levelMap, Constants.unitScale, batch)
   }
 
   def render(renderizables: Iterable[Renderizable], camera: OrthographicCamera): Unit = {
     mapRenderer.setView(camera)
-    val batch = mapRenderer.getBatch
     batch.begin()
     renderEffects(batch)
-    batch.end()
     mapRenderer.render()
-    batch.begin()
     renderizables.foreach(_.render(batch))
     batch.end()
   }
 
-  def getCell(x: Int, y: Int): Option[Cell] = levelMap.getLayers.get("level").asInstanceOf[TiledMapTileLayer].getCell(x, y) match {
-    case null => None
-    case cell => Some(cell)
-  }
+  def getCell(x: Int, y: Int): Option[Cell] = levelMap.getCell(x, y, "level")
 
-  def dispose() = levelMap.dispose()
+  def dispose() = {
+    SectionManager.dispose()
+    batch.dispose()
+  }
 
 }
 

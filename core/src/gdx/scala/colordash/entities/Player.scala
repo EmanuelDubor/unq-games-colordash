@@ -8,7 +8,7 @@ import gdx.scala.colordash.tiles.{Tile, TileContent}
 
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
   var physicsComponent: GravityPhysics = NormalGravityPhysics
-  val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeigth)
+  val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeight)
 
   var baseVelocity = Constants.initialVelocity
   private var stuckTick = 0
@@ -18,12 +18,12 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
 
   val velocity = new Vector2(baseVelocity, 0)
   rect.width = Constants.tileWidth
-  rect.height = Constants.tileHeigth
+  rect.height = Constants.tileHeight
   rect.x = Constants.startX
   rect.y = Constants.startY
 
   override def render(batch: Batch): Unit = {
-    batch.draw(playerTexture, rect.x, rect.y, Constants.tileWidth, Constants.tileHeigth)
+    batch.draw(playerTexture, rect.x, rect.y, Constants.tileWidth, Constants.tileHeight)
   }
 
   def update(implicit delta: Float): Unit = {
@@ -55,7 +55,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
 
     if (Constants.maxStuck < stuckTick ||
       Constants.maxSpike < spikeTick ||
-      rect.y < 0 || 15 < rect.y
+      rect.y < 0 || Constants.sectionHeight <= rect.y
     ) {
       ColorDashGame.newPlayer()
     }

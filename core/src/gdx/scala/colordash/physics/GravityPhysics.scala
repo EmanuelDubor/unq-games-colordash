@@ -27,11 +27,11 @@ trait GravityPhysics {
   }
 
   protected def onCollideUp(player: Player, tile: Tile): Unit = {
-    player.futureRect.y = tile.y - Constants.tileHeigth
+    player.futureRect.y = tile.y - Constants.tileHeight
   }
 
   protected def onCollideDown(player: Player, tile: Tile): Unit = {
-    player.futureRect.y = tile.y + Constants.tileHeigth
+    player.futureRect.y = tile.y + Constants.tileHeight
   }
 
   protected def onUpdateVelocityRight(player: Player)(implicit delta: Float): Unit = {
@@ -52,7 +52,7 @@ trait GravityPhysics {
       currentTile.x,
       currentTile.y,
       futureTile.x + Constants.tileWidth.toInt,
-      currentTile.y + Constants.tileHeigth.toInt
+      currentTile.y + Constants.tileHeight.toInt
     )
 
     val collidingTile = tiles.find(tile => tile.isSolid && tile.overlaps(player.futureRect))
@@ -69,8 +69,8 @@ trait GravityPhysics {
   protected def collideY(player: Player): Unit = {
     val currentTile = Tile(player.rect)
     val futureTile = Tile(player.futureRect)
-    val startY = Math.min(currentTile.y, futureTile.y) - Constants.tileHeigth.toInt
-    var endY = Math.max(currentTile.y, futureTile.y) + Constants.tileHeigth.toInt
+    val startY = Math.min(currentTile.y, futureTile.y) - Constants.tileHeight.toInt
+    var endY = Math.max(currentTile.y, futureTile.y) + Constants.tileHeight.toInt
 
     Tile.findTiles(
       currentTile.x,

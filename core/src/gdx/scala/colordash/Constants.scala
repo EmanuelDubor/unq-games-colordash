@@ -1,8 +1,10 @@
 package gdx.scala.colordash
 
 object Constants {
-  val tileHeigth = 1f
-  val tileWidth = 1f
+  val tileHeightPx = 64
+  val tileWidthPx = 64
+  val sectionWidth = 32
+  val sectionHeight = 16
   val touchMargin = 0.1f
   val mapExtension = ".tmx"
   val sectionsPath = "sections/"
@@ -12,10 +14,12 @@ object Constants {
   val buttons = "buttons.png"
 
   val unitScale = 1 / 64f
+  val tileHeight = 1f
+  val tileWidth = 1f
   val viewportWidth = 24f
   val viewportHeigth = 18f
   val gameCameraXOffset = tileWidth * 8f
-  val gameCameraYOffset = tileHeigth * -2.5f
+  val gameCameraYOffset = tileHeight * -2.5f
 
   val gravity = 10f
   val friction = -8f
