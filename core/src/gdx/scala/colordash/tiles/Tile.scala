@@ -1,15 +1,12 @@
 package gdx.scala.colordash.tiles
 
-import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.utils.Pool
 import com.badlogic.gdx.utils.Pool.Poolable
-import com.badlogic.gdx.utils.{ObjectMap, Pool}
 import gdx.scala.colordash.Constants
-import gdx.scala.colordash.effect.{Effect, Effects}
+import gdx.scala.colordash.effect.Effect
 import gdx.scala.colordash.tiles.TileContent._
-
-import scala.collection.JavaConversions._
 
 class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val width: Float = Constants.tileWidth
@@ -48,9 +45,9 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
 
   def has(tileContent: TileContent): Boolean = content.equals(tileContent)
 
-  def effect_=(effect: Effect) = TileEffectMap.put(this, effect)
+  def effect_=(effect: Effect) = TiledWorld.putEffect(this, effect)
 
-  def effect = TileEffectMap.get(this)
+  def effect = TiledWorld.getEffect(this)
 }
 
 object Tile extends Pool[Tile] {
@@ -87,17 +84,7 @@ object Tile extends Pool[Tile] {
 
 }
 
-object TileEffectMap extends ObjectMap[(Int, Int), Effect] {
-  def get(tile: Tile): Effect = get((tile.x, tile.y), Effects.None)
 
-  def put(tile: Tile, effect: Effect): Effect = put((tile.x, tile.y), effect)
-
-  def render(batch: Batch) = {
-    this.foreach { entry =>
-      entry.value.render(batch, entry.key._1, entry.key._2)
-    }
-  }
-}
 
 
 

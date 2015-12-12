@@ -1,14 +1,19 @@
 package gdx.scala.colordash.tiles
 
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapTileLayer, TmxMapLoader}
+import com.badlogic.gdx.utils.ObjectMap
 import gdx.scala.colordash.Constants
+import gdx.scala.colordash.effect.{Effect, Effects}
 import gdx.scala.colordash.entities.Renderizable
 import gdx.scala.colordash.utils.LifeCycle
 
-object TiledWorld extends LifeCycle {
+import scala.collection.JavaConversions._
+
+object TiledWorld extends TileEffectMap with LifeCycle {
   var levelMap: TiledMap = _
   var mapRenderer: OrthogonalTiledMapRenderer = _
 
@@ -21,7 +26,7 @@ object TiledWorld extends LifeCycle {
     mapRenderer.setView(camera)
     val batch = mapRenderer.getBatch
     batch.begin()
-    TileEffectMap.render(batch)
+    renderEffects(batch)
     batch.end()
     mapRenderer.render()
     batch.begin()
@@ -36,4 +41,20 @@ object TiledWorld extends LifeCycle {
 
   def dispose() = levelMap.dispose()
 
+}
+
+trait TileEffectMap {
+  private val objectMap = new ObjectMap[(Int, Int), Effect]()
+
+  def getEffect(tile: Tile): Effect = objectMap.get((tile.x, tile.y), Effects.None)
+
+  def putEffect(tile: Tile, effect: Effect): Effect = objectMap.put((tile.x, tile.y), effect)
+
+  def clearEffects() = objectMap.clear()
+
+  def renderEffects(batch: Batch) = {
+    objectMap.foreach { entry =>
+      entry.value.render(batch, entry.key._1, entry.key._2)
+    }
+  }
 }
