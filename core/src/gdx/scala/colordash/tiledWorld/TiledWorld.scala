@@ -21,6 +21,12 @@ object TiledWorld extends TileEffectMap with LifeCycle {
     SectionManager.create()
     batch = new SpriteBatch()
     levelMap = new EndlessTiledMap(SectionManager.startArea, Constants.sectionWidth, Constants.sectionHeight)
+    levelMap.addComponent(SectionManager.getSection("section1"))
+    levelMap.addComponent(SectionManager.getSection("section2"))
+    levelMap.addComponent(SectionManager.getSection("section3"))
+    levelMap.addComponent(SectionManager.getSection("section1"))
+    levelMap.addComponent(SectionManager.getSection("section2"))
+    levelMap.addComponent(SectionManager.getSection("section3"))
     mapRenderer = new OrthogonalEndlessTiledMapRenderer(levelMap, Constants.unitScale, batch)
   }
 
