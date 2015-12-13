@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="64" tileheight="64" backgroundcolor="#ffbb92" nextobjectid="4">
+ <properties>
+  <property name="endBottom" value="14"/>
+  <property name="endTop" value="1"/>
+  <property name="startBottom" value="14"/>
+  <property name="startTop" value="1"/>
+ </properties>
  <tileset firstgid="1" name="boxes_map" tilewidth="64" tileheight="64" tilecount="20">
   <image source="../boxes_map.png" width="320" height="256"/>
   <tile id="1">
@@ -30,38 +36,32 @@
  </layer>
  <layer name="borderTop" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2BoAHYkTIrcKKAOGA1/+gF2Btxhii5HjBpS7aQ2IMad9AKjaRUBAN6yAQs=
+   eJxjYBgFo2DoAHYoJlZ8FFAXjIY/fQA7GsYnR4waUu2kNiDGnfQCA2HnYAUAYHoA7w==
   </data>
  </layer>
  <layer name="borderBottom" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBjZQBAJD7SdtHQLqWYLMhDnTmLVjALKAb7wHA1r2oPR8B8Fww0AAF5PAoc=
+   eJxjYBjZQBAJD7SdtHQLqWYLMhDnTmLVjALqAFzhORrO9AGj4T8KhhMAAG+4AkM=
   </data>
  </layer>
  <layer name="borderLeft" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBhagJtKasjVQyv7idVPD/tHASagNE5GAWVgNPzpBwai/BlM5e9gtp/aAACBdQDd
+   eJxjYBhagJtKasjVQyv7idVPD/tHAXaAK1xHw5s+YDT86QMGovwZTOXvYLaf2gAAgR0A3Q==
   </data>
  </layer>
  <layer name="borderRight" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgagJdKagaD/eS4k1L7aRk2IxGMhvXAgtHwpy8Y6PJnqJe/gxUAABFUAQU=
+   eJxjYBgagJdKagaD/eS4k1L7aRk2IxHgCs/RcKYPGA1/+oKBLn+Gevk7WAEAEbwBBQ==
   </data>
  </layer>
  <layer name="borderCorners" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgwEI0NEuIQLy2NwihEeOGDWE7CQE2ND4HETKDReAHqZCRMpRC4yGPyqgZfijhycIcOCRI0YNoTjBZy61wXBMH0MVAAB3egGB
+   eJxjYBgFgwEI0NEuIQLy2NwihEeOGDWE7CQGsCGxOYgQH24AOVyFiBCnNhgNfwSgZfizYRHjwCNHjBpC8YLPXGqD4ZxGhhoAAHeaAYE=
   </data>
  </layer>
  <layer name="level" width="32" height="16">
-  <properties>
-   <property name="endBottom" value="14"/>
-   <property name="endTop" value="1"/>
-   <property name="startBottom" value="15"/>
-   <property name="startTop" value="1"/>
-  </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYCAMeLBgctTgMpuZgB6QOAsSxmU/ITXI7mTGogaX+7Gpw2YuLj654YLsVmTAzIBpJiE1o4BygCusCcmNAuqA0fCnHxiI8mcgyl9i6x8mJIzLfkJqkN2Crf7BBWhZ/wIAyeYEpQ==
+   eJxjYCAMeLBgctTgMpuZgB6QOAsSxmU/ITXI7mTGogaX+7Gpw2YuLj654YLsVmTAzIBpJiE1o4A6AFtYMzBgT0+jgPpgNPzpAwai/BmI8pfY+ocJCeOyn5AaZLeQkl5pWf8CAAj2BHU=
   </data>
  </layer>
 </map>

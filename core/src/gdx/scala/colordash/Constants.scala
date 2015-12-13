@@ -8,6 +8,14 @@ object Constants {
   val touchMargin = 0.1f
   val mapExtension = ".tmx"
   val sectionsPath = "sections/"
+  val sectionNameKey = "sectionName"
+  val nextSectionKey = "nextSection"
+  val prevSectionKey = "prevSection"
+  val startTopKey = "startTop"
+  val startBottomKey = "startBottom"
+  val endTopKey = "endTop"
+  val endBottomKey = "endBottom"
+  val defaultSectionOrder = "bestPick"
   val startArea = "startArea"
   val gameTextures = "boxes_map.png"
   val guiBase = "gui_base.png"
@@ -25,7 +33,7 @@ object Constants {
   val friction = -8f
 
   val initialVelocity = 4f
-  val startX = 1f
+  val startX = 5f
   val startY = 8f
   val maxStuck = 15f
   val maxSpike = 3f

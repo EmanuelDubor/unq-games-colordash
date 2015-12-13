@@ -3,12 +3,17 @@ package gdx.scala.colordash.entities
 import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
 import gdx.scala.colordash._
+import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.physics._
+import gdx.scala.colordash.tiles.TileContent.Activator
 import gdx.scala.colordash.tiles.{Tile, TileContent}
+
+import scala.collection.JavaConversions._
 
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
   var physicsComponent: GravityPhysics = NormalGravityPhysics
   val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeight)
+  protected implicit val tiles = new com.badlogic.gdx.utils.Array[Tile]
 
   var baseVelocity = Constants.initialVelocity
   private var stuckTick = 0
@@ -28,7 +33,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
 
   def update(implicit delta: Float): Unit = {
     totalTime += delta
-    physicsComponent.processActions(this)
+    processActions()
 
     futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
 
@@ -36,6 +41,26 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
     checkDefeat()
 
     rect.setPosition(futureRect.x, futureRect.y)
+  }
+
+  def processActions(): Unit = {
+    tiles.clear()
+
+    val currentTile = Tile(rect)
+    tiles.add(currentTile.tileRight)
+    tiles.add(currentTile.tileUp)
+    tiles.add(currentTile.tileDown)
+
+    tiles.filter { tile =>
+      tile.has(Activator) &&
+        tile.touches(rect)
+    }.foreach { tile =>
+      tile.effect.applyEffect(this)
+      tile.effect = Effects.None
+    }
+
+    Tile.free(currentTile)
+    Tile.freeAll(tiles)
   }
 
   def checkDefeat(): Unit = {

@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.utils.ObjectMap
 import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.{Effect, Effects}
-import gdx.scala.colordash.entities.Renderizable
+import gdx.scala.colordash.entities.{Player, Renderizable}
 import gdx.scala.colordash.tiles.Tile
 import gdx.scala.colordash.utils.LifeCycle
 
@@ -20,14 +20,15 @@ object TiledWorld extends TileEffectMap with LifeCycle {
   def create(): Unit = {
     SectionManager.create()
     batch = new SpriteBatch()
-    levelMap = new EndlessTiledMap(SectionManager.startArea, Constants.sectionWidth, Constants.sectionHeight)
-    levelMap.addComponent(SectionManager.getSection("section1"))
+    levelMap = new EndlessTiledMap(SectionManager.getSection(Constants.startArea), Constants.sectionWidth, Constants.sectionHeight)
     levelMap.addComponent(SectionManager.getSection("section2"))
-    levelMap.addComponent(SectionManager.getSection("section3"))
-    levelMap.addComponent(SectionManager.getSection("section1"))
-    levelMap.addComponent(SectionManager.getSection("section2"))
-    levelMap.addComponent(SectionManager.getSection("section3"))
     mapRenderer = new OrthogonalEndlessTiledMapRenderer(levelMap, Constants.unitScale, batch)
+  }
+
+  def continueLevel(player: Player): Unit = {
+    if (levelMap.width - player.rect.x < Constants.sectionWidth * 2) {
+      levelMap.addComponent(SectionManager.continueSection(levelMap.lastSection()))
+    }
   }
 
   def render(renderizables: Iterable[Renderizable], camera: OrthographicCamera): Unit = {

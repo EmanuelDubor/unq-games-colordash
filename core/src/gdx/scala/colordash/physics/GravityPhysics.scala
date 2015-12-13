@@ -2,9 +2,7 @@ package gdx.scala.colordash.physics
 
 import com.badlogic.gdx.math.Vector2
 import gdx.scala.colordash.Constants
-import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.entities.Player
-import gdx.scala.colordash.tiles.TileContent._
 import gdx.scala.colordash.tiles._
 
 import scala.collection.JavaConversions._
@@ -120,24 +118,6 @@ trait GravityPhysics {
 
   }
 
-  def processActions(player: Player): Unit = {
-    tiles.clear()
-
-    val currentTile = Tile(player.rect)
-    tiles.add(currentTile.tileRight)
-    tiles.add(currentTile.tileUp)
-    tiles.add(currentTile.tileDown)
-
-    tiles.filter { tile =>
-      tile.has(Activator) &&
-        tile.touches(player.rect)
-    }.foreach { tile =>
-      tile.effect.applyEffect(player)
-      tile.effect = Effects.None
-    }
-
-    Tile.freeAll(tiles)
-  }
 }
 
 object NormalGravityPhysics extends GravityPhysics {

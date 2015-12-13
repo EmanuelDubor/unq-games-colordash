@@ -50,6 +50,7 @@ object ColorDashGame extends ApplicationAdapter with LifeCycle {
     TiledWorld.render(players, gameCamera)
 
     GUI.render()
+    TiledWorld.continueLevel(currentPlayer)
   }
 
   def newPlayer() = {

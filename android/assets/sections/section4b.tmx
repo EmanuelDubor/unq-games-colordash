@@ -3,6 +3,7 @@
  <properties>
   <property name="endBottom" value="14"/>
   <property name="endTop" value="1"/>
+  <property name="prevSection" value="section4a"/>
   <property name="startBottom" value="14"/>
   <property name="startTop" value="1"/>
  </properties>
@@ -31,37 +32,37 @@
  </tileset>
  <layer name="background" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJzjYWBg4MGCaQkI2UNr+wmBkW7/KCAe0CO/4LITFx7u9mNzyyigHhjo8BxJ9g9EHkK2BwBhmAIR
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="borderTop" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4A8wI6G6W0nKXK0snMUDC8wGtf0BfQuQwaizBrMAABulgCp
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="borderBottom" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBjZQBANDzf7hhoYDZtRgA4GU5rA5xZ6u3O0LBkFlAIADrEBmQ==
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="borderLeft" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBg5gJtCeVqDkW4/KWAg3DpS7BxM9iOD4e6WgfbfSLef1mAw+g8AfuYAmw==
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="borderRight" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBi8gHfU/hFtP6lgMLl3oN0yav/Qt3MkhuGo/fQFAOimALc=
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="borderCorners" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF9AICA+0AKgI2LGIcFJqJHj5CRNiJC1DqFnLsHAXUB/TMM+hxjZ6GSHELetqlNsDmFlrbOdTBaF7GBADu9gC9
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="level" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYMAOeGiI0e1hxiIPollogPG5hYEB1f6BAIPBfmYoHuwAOR7p5V5saZXWbsFlJy4AUsOEhAfCfuQ8R00wEOGPC9DCzoHOf4Oh/KGn/fjqHyYaYEL1D7K76FH/AgBLOgVr
+   eJzjYWBg4EHD9AQsWDC9AL39OgowARMSHoh0iG7nQOWDUTAyAdMA2z+azgcODIawBwC4wwEB
   </data>
  </layer>
 </map>
