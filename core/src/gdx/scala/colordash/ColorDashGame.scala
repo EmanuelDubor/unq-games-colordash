@@ -3,6 +3,8 @@ package gdx.scala.colordash
 import com.badlogic.gdx.graphics._
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.{ApplicationAdapter, Gdx}
+import gdx.scala.colordash.Constants.CameraValues._
+import gdx.scala.colordash.Constants.TextureValues._
 import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.tiledWorld.TiledWorld
@@ -19,12 +21,12 @@ object ColorDashGame extends ApplicationAdapter with LifeCycle {
   var playerTexture: TextureRegion = _
 
   override def create() {
-    textures = new Texture(Constants.gameTextures)
-    playerTexture = TextureRegion.split(textures, Constants.tileWidthPx, Constants.tileHeightPx)(0)(0)
+    textures = new Texture(gameTextures)
+    playerTexture = TextureRegion.split(textures, tileWidthPx, tileHeightPx)(0)(0)
 
     gameCamera = new OrthographicCamera()
-    gameCamera.setToOrtho(false, Constants.viewportWidth, Constants.viewportHeigth)
-    gameCamera.position.y = Constants.viewportHeigth / 2 + Constants.gameCameraYOffset
+    gameCamera.setToOrtho(false, viewportWidth, viewportHeigth)
+    gameCamera.position.y = viewportHeigth / 2 + gameCameraYOffset
 
     Gdx.input.setInputProcessor(GUI)
     TiledWorld.create()
@@ -44,7 +46,7 @@ object ColorDashGame extends ApplicationAdapter with LifeCycle {
     if (!paused) {
       currentPlayer.update
     }
-    gameCamera.position.x = currentPlayer.rect.x + Constants.gameCameraXOffset
+    gameCamera.position.x = currentPlayer.rect.x + gameCameraXOffset
     gameCamera.update()
 
     TiledWorld.render(players, gameCamera)

@@ -1,14 +1,16 @@
 package gdx.scala.colordash.physics
 
 import com.badlogic.gdx.math.Vector2
-import gdx.scala.colordash.Constants
+import com.badlogic.gdx.utils.Array
+import gdx.scala.colordash.Constants.PhysicsValues
+import gdx.scala.colordash.Constants.TileValues._
 import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.tiles._
 
 import scala.collection.JavaConversions._
 
 trait GravityPhysics {
-  protected implicit val tiles = new com.badlogic.gdx.utils.Array[Tile]
+  protected implicit val tiles = new Array[Tile]
 
   val gravity: Float
 
@@ -21,15 +23,15 @@ trait GravityPhysics {
   protected def onUpdateVelocityDown(player: Player)(implicit delta: Float): Unit
 
   protected def onCollideRight(player: Player, tile: Tile): Unit = {
-    player.futureRect.x = tile.x - Constants.tileWidth
+    player.futureRect.x = tile.x - tileWidth
   }
 
   protected def onCollideUp(player: Player, tile: Tile): Unit = {
-    player.futureRect.y = tile.y - Constants.tileHeight
+    player.futureRect.y = tile.y - tileHeight
   }
 
   protected def onCollideDown(player: Player, tile: Tile): Unit = {
-    player.futureRect.y = tile.y + Constants.tileHeight
+    player.futureRect.y = tile.y + tileHeight
   }
 
   protected def onUpdateVelocityRight(player: Player)(implicit delta: Float): Unit = {
@@ -49,8 +51,8 @@ trait GravityPhysics {
     Tile.findTiles(
       currentTile.x,
       currentTile.y,
-      futureTile.x + Constants.tileWidth.toInt,
-      currentTile.y + Constants.tileHeight.toInt
+      futureTile.x + tileWidth.toInt,
+      currentTile.y + tileHeight.toInt
     )
 
     val collidingTile = tiles.find(tile => tile.isSolid && tile.overlaps(player.futureRect))
@@ -67,13 +69,13 @@ trait GravityPhysics {
   protected def collideY(player: Player): Unit = {
     val currentTile = player.currentTile()
     val futureTile = player.futureTile()
-    val startY = Math.min(currentTile.y, futureTile.y) - Constants.tileHeight.toInt
-    var endY = Math.max(currentTile.y, futureTile.y) + Constants.tileHeight.toInt
+    val startY = Math.min(currentTile.y, futureTile.y) - tileHeight.toInt
+    var endY = Math.max(currentTile.y, futureTile.y) + tileHeight.toInt
 
     Tile.findTiles(
       currentTile.x,
       startY,
-      currentTile.x + Constants.tileWidth.toInt,
+      currentTile.x + tileWidth.toInt,
       endY
     )
 
@@ -98,7 +100,7 @@ trait GravityPhysics {
     if (tileRight.isSolid && tileRight.touches(player.futureRect)) {
       onUpdateVelocityRight(player)
     } else if (player.baseVelocity < player.velocity.x) {
-      player.velocity.x += Constants.friction * delta
+      player.velocity.x += PhysicsValues.friction * delta
     } else {
       player.velocity.x = player.baseVelocity
     }
@@ -121,7 +123,7 @@ trait GravityPhysics {
 }
 
 object NormalGravityPhysics extends GravityPhysics {
-  val gravity = Constants.gravity * -1
+  val gravity = PhysicsValues.gravity * -1
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y)
 
@@ -137,7 +139,7 @@ object NormalGravityPhysics extends GravityPhysics {
 }
 
 object ReversedGravityPhysics extends GravityPhysics {
-  val gravity: Float = Constants.gravity
+  val gravity: Float = PhysicsValues.gravity
 
   def addTo(vector: Vector2, x: Float, y: Float): Unit = vector.add(x, y * -1)
 

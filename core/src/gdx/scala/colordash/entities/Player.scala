@@ -2,6 +2,8 @@ package gdx.scala.colordash.entities
 
 import com.badlogic.gdx.graphics.g2d.{Batch, TextureRegion}
 import com.badlogic.gdx.math.{Rectangle, Vector2}
+import gdx.scala.colordash.Constants.PlayerValues._
+import gdx.scala.colordash.Constants.TileValues._
 import gdx.scala.colordash._
 import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.physics._
@@ -13,9 +15,9 @@ import scala.collection.JavaConversions._
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
   var physicsComponent: GravityPhysics = NormalGravityPhysics
 
-  val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeight)
+  val futureRect = new Rectangle().setSize(tileWidth, tileHeight)
   protected implicit val tiles = new com.badlogic.gdx.utils.Array[Tile]
-  var baseVelocity = Constants.initialVelocity
+  var baseVelocity = initialVelocity
 
   private var stuckTick = 0
   private var spikeTick = 0
@@ -23,13 +25,13 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
 
   val velocity = new Vector2(baseVelocity, 0)
 
-  rect.width = Constants.tileWidth
-  rect.height = Constants.tileHeight
-  rect.x = Constants.startX
-  rect.y = Constants.startY
+  rect.width = tileWidth
+  rect.height = tileHeight
+  rect.x = startX
+  rect.y = startY
 
   override def render(batch: Batch): Unit = {
-    batch.draw(playerTexture, rect.x, rect.y, Constants.tileWidth, Constants.tileHeight)
+    batch.draw(playerTexture, rect.x, rect.y, tileWidth, tileHeight)
   }
 
   def update(implicit delta: Float): Unit = {
@@ -79,9 +81,9 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
       spikeTick = 0
     }
 
-    if (Constants.maxStuck < stuckTick ||
-      Constants.maxSpike < spikeTick ||
-      rect.y < 0 || Constants.sectionHeight <= rect.y
+    if (maxStuck < stuckTick ||
+      maxSpike < spikeTick ||
+      rect.y < 0 || Constants.SectionManagerValues.sectionHeight <= rect.y
     ) {
       ColorDashGame.newPlayer()
     }

@@ -4,14 +4,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Pool
 import com.badlogic.gdx.utils.Pool.Poolable
-import gdx.scala.colordash.Constants
+import gdx.scala.colordash.Constants.TileValues._
 import gdx.scala.colordash.effect.Effect
 import gdx.scala.colordash.tiledWorld.TiledWorld
 import gdx.scala.colordash.tiles.TileContent._
 
 class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
-  val width: Float = Constants.tileWidth
-  val height: Float = Constants.tileHeight
+  val width: Float = tileWidth
+  val height: Float = tileHeight
 
   var content: TileContent = Nothing
 
@@ -44,8 +44,8 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
       y + height > r.y
 
   def touches(r: Rectangle) = {
-    val xMargin = Constants.tileWidth * Constants.touchMargin
-    val yMargin = Constants.tileHeight * Constants.touchMargin
+    val xMargin = tileWidth * touchMargin
+    val yMargin = tileHeight * touchMargin
     val rect = new Rectangle(x - xMargin, y - yMargin, width + (2 * xMargin), height + (2 * yMargin))
     rect.overlaps(r)
   }

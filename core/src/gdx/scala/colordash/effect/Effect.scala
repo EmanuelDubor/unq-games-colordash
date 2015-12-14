@@ -2,8 +2,8 @@ package gdx.scala.colordash.effect
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.{Color, Pixmap, Texture}
-import gdx.scala.colordash.Constants
-import gdx.scala.colordash.Constants._
+import gdx.scala.colordash.Constants.EffectValues._
+import gdx.scala.colordash.Constants.TileValues._
 import gdx.scala.colordash.entities.Player
 import gdx.scala.colordash.tiles.Tile
 import gdx.scala.colordash.utils.LifeCycle
@@ -17,7 +17,7 @@ trait Effect extends LifeCycle {
   def applyEffect(player: Player, triggeringTile: Tile): Unit
 
   def render(batch: Batch, x: Int, y: Int) = {
-    batch.draw(texture, x, y, Constants.tileWidth, Constants.tileHeight)
+    batch.draw(texture, x, y, tileWidth, tileHeight)
   }
 
   def create() = {

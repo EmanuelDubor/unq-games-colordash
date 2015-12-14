@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Buttons
 import com.badlogic.gdx.graphics.g2d.{BitmapFont, SpriteBatch, TextureRegion}
 import com.badlogic.gdx.graphics.{Color, Texture}
+import gdx.scala.colordash.ColorDashGame
+import gdx.scala.colordash.Constants.TextureValues
 import gdx.scala.colordash.effect.Effects
 import gdx.scala.colordash.utils.LifeCycle
-import gdx.scala.colordash.{ColorDashGame, Constants}
 
 object GUI extends GameInputHandler with LifeCycle {
   val screeWidth = Gdx.graphics.getWidth
@@ -26,8 +27,8 @@ object GUI extends GameInputHandler with LifeCycle {
   def create() = {
     font = new BitmapFont
     font.setColor(Color.ORANGE)
-    guiBase = new Texture(Constants.guiBase)
-    buttons = new Texture(Constants.buttons)
+    guiBase = new Texture(TextureValues.guiBase)
+    buttons = new Texture(TextureValues.buttons)
     val buttonSize = 64
     buttonsRegions = TextureRegion.split(buttons, buttonSize, buttonSize)
 
