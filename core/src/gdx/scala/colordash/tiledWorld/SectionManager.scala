@@ -8,6 +8,7 @@ import gdx.scala.colordash.Constants
 import gdx.scala.colordash.utils.{Composite, LifeCycle}
 
 import scala.collection.JavaConversions._
+import scala.util.Random
 
 object SectionManager extends Composite[TiledMap] with LifeCycle {
   var loader: TmxMapLoader = _
@@ -17,7 +18,7 @@ object SectionManager extends Composite[TiledMap] with LifeCycle {
     val fileResolver = new RelativeFileHandleResolver(Constants.sectionsPath)
     loader = new TmxMapLoader(fileResolver)
     val sections = fileResolver.listFiles(Constants.mapExtension)
-    sortedSections = new ObjectMap[(String, String), Array[TiledMap]](sections.size)
+    sortedSections = new ObjectMap[(String, String), Array[TiledMap]](sections.length)
     sections.foreach { file =>
       val sectionName = file.nameWithoutExtension()
       loadSection(sectionName)
@@ -39,7 +40,12 @@ object SectionManager extends Composite[TiledMap] with LifeCycle {
   }
 
   protected def bestPick(section: TiledMap): TiledMap = {
-    getSection(Constants.startArea)
+    val sectionProperties = section.getProperties
+    val sectionKey = (sectionProperties.get(Constants.endTopKey, classOf[String]), sectionProperties.get(Constants.endBottomKey, classOf[String]))
+    val defaultSection = new Array[TiledMap]()
+    defaultSection.add(getSection(Constants.endArea))
+    val matches = sortedSections.get(sectionKey, defaultSection)
+    matches.get(Random.nextInt(matches.size))
   }
 
   protected def loadSection(sectionName: String): TiledMap = {
@@ -55,7 +61,8 @@ object SectionManager extends Composite[TiledMap] with LifeCycle {
   }
 
   protected def sortSection(section: TiledMap): Unit = {
-    val sectionKey = (section.getProperties.get(Constants.startTopKey, classOf[String]), section.getProperties.get(Constants.startBottomKey, classOf[String]))
+    val sectionProperties = section.getProperties
+    val sectionKey = (sectionProperties.get(Constants.startTopKey, classOf[String]), sectionProperties.get(Constants.startBottomKey, classOf[String]))
     val sectionCategory = sortedSections.get(sectionKey, new Array[TiledMap]())
     sectionCategory.add(section)
     sortedSections.put(sectionKey, sectionCategory)

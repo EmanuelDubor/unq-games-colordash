@@ -23,7 +23,7 @@ class EndlessTiledMap(val firstSection: TiledMap, val sectionWidth: Int, val sec
   def contains(x: Int, y: Int): Boolean =
     !(x < 0 || width <= x || y < 0 || height <= y)
 
-  def getCell(x: Int, y: Int, layer: String): Option[Cell] = {
+  def getCell(x: Int, y: Int, layer: String="level"): Option[Cell] = {
     if (contains(x, y)) {
       val index = x / sectionWidth
       components.get(index).getLayers.get(layer).asInstanceOf[OffsetTiledMapTileLayer].getCell(x, y) match {

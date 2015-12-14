@@ -17,6 +17,7 @@ object Constants {
   val endBottomKey = "endBottom"
   val defaultSectionOrder = "bestPick"
   val startArea = "startArea"
+  val endArea = "endArea"
   val gameTextures = "boxes_map.png"
   val guiBase = "gui_base.png"
   val buttons = "buttons.png"

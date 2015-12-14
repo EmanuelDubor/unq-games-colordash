@@ -21,7 +21,6 @@ object TiledWorld extends TileEffectMap with LifeCycle {
     SectionManager.create()
     batch = new SpriteBatch()
     levelMap = new EndlessTiledMap(SectionManager.getSection(Constants.startArea), Constants.sectionWidth, Constants.sectionHeight)
-    levelMap.addComponent(SectionManager.getSection("section2"))
     mapRenderer = new OrthogonalEndlessTiledMapRenderer(levelMap, Constants.unitScale, batch)
   }
 
@@ -40,7 +39,7 @@ object TiledWorld extends TileEffectMap with LifeCycle {
     batch.end()
   }
 
-  def getCell(x: Int, y: Int): Option[Cell] = levelMap.getCell(x, y, "level")
+  def getCell(x: Int, y: Int): Option[Cell] = levelMap.getCell(x, y)
 
   def dispose() = {
     SectionManager.dispose()

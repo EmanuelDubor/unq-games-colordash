@@ -3,6 +3,7 @@
  <properties>
   <property name="endBottom" value="14"/>
   <property name="endTop" value="1"/>
+  <property name="prevSection" value="none"/>
   <property name="startBottom" value="14"/>
   <property name="startTop" value="1"/>
  </properties>

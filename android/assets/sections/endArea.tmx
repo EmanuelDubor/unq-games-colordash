@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="64" tileheight="64" backgroundcolor="#ffbb92" nextobjectid="4">
  <properties>
-  <property name="endBottom" value="14"/>
-  <property name="endTop" value="1"/>
-  <property name="startBottom" value="14"/>
-  <property name="startTop" value="1"/>
+  <property name="endBottom" value="0"/>
+  <property name="endTop" value="0"/>
+  <property name="nextSection" value="endArea"/>
+  <property name="prevSection" value="none"/>
+  <property name="startBottom" value="0"/>
+  <property name="startTop" value="0"/>
  </properties>
  <tileset firstgid="1" name="boxes_map" tilewidth="64" tileheight="64" tilecount="20">
   <image source="../boxes_map.png" width="320" height="256"/>
@@ -31,37 +33,37 @@
  </tileset>
  <layer name="background" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJzjYWBg4MGCaQkI2UNr+wmBkW7/KCAe0CO/4LKTnnl2MNmPzS2jgHpgoMNzJNk/EHkJ2R4ApCkB4Q==
+   eJxjYBgFo2AU4AI8eGgeAnxsNLXsx8ceKPvJtYNUN+CyH58eWrltFIyCoQwAZ/oBjQ==
   </data>
  </layer>
  <layer name="borderTop" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4A8wI6G6W0nPcyl1I/0CpdRQB1A7/Q80gG9y5CBKLMGMwAArCoAtw==
+   eJxjYBgFo2AUjIJRMApGHmAfYDzQAACxwADh
   </data>
  </layer>
  <layer name="borderBottom" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBjZQBANDzf7hhoYDZuRCXDFO6X5hdrpaDClz9GyZBRQCgCkPQG7
+   eJxjYBhYIDjAeBSMglEwCkbBKBiJAAB1IQIh
   </data>
  </layer>
  <layer name="borderLeft" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBg5gJtCeVqDkW4/KWAg3EorO3GZS6l9xOofaPsHyjxKAC3cMtD+G+n20xoMRv8BADINAMc=
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="borderRight" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBi8gHfU/hFtP6lgoN1LLfvJNQeXPlLNG2j7yQXDJf5pZd6o/UPLfnoAALv1AOs=
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="borderCorners" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF9AICA+0AKgI2LGIcFJqJHj5CRNhJDYBuLgcOcXLNpTRchjvAFe+U5heYfvR0hAvgSgfo5g0GgM0txPpzpAJalR9DGQAA+90BAw==
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
   </data>
  </layer>
  <layer name="level" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYMAOeGiI0e1hxiIPollogPG5hYEB1f6BAIPBflicDHaAHI/0ci+u9ENpfCHnA1ziuNIsDDBhwcSGCzXsx5bfqB0vtAp/St1CLX8OdP4bDOUPPe3HV/9gy0+UYkL1D7K76FH/AgA4UQWh
+   eJzjYWBg4BlAPApGwSgYBaNgFIxEMJB1LwgDAA60AwE=
   </data>
  </layer>
 </map>
