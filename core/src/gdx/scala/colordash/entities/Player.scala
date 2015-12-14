@@ -12,16 +12,17 @@ import scala.collection.JavaConversions._
 
 class Player(playerTexture: TextureRegion) extends SquaredEntity {
   var physicsComponent: GravityPhysics = NormalGravityPhysics
+
   val futureRect = new Rectangle().setSize(Constants.tileWidth, Constants.tileHeight)
   protected implicit val tiles = new com.badlogic.gdx.utils.Array[Tile]
-
   var baseVelocity = Constants.initialVelocity
+
   private var stuckTick = 0
   private var spikeTick = 0
-
   var totalTime = 0f
 
   val velocity = new Vector2(baseVelocity, 0)
+
   rect.width = Constants.tileWidth
   rect.height = Constants.tileHeight
   rect.x = Constants.startX
@@ -33,7 +34,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
 
   def update(implicit delta: Float): Unit = {
     totalTime += delta
-    processActions()
+    triggerActivators()
 
     futureRect.setPosition(rect.x + velocity.x * delta, rect.y + velocity.y * delta)
 
@@ -43,10 +44,10 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
     rect.setPosition(futureRect.x, futureRect.y)
   }
 
-  def processActions(): Unit = {
+  def triggerActivators(): Unit = {
     tiles.clear()
 
-    val currentTile = Tile(rect)
+    val currentTile = this.currentTile()
     tiles.add(currentTile.tileRight)
     tiles.add(currentTile.tileUp)
     tiles.add(currentTile.tileDown)
@@ -55,7 +56,7 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
       tile.has(Activator) &&
         tile.touches(rect)
     }.foreach { tile =>
-      tile.effect.applyEffect(this)
+      tile.effect.applyEffect(this, tile)
       tile.effect = Effects.None
     }
 
@@ -88,6 +89,15 @@ class Player(playerTexture: TextureRegion) extends SquaredEntity {
   }
 
   def addVelocity(x: Float, y: Float) = physicsComponent.addTo(velocity, x, y)
+
+  def setPosition(targetTile: Tile) = {
+    rect.x = targetTile.x
+    rect.y = targetTile.y
+  }
+
+  def currentTile(): Tile = Tile(rect)
+
+  def futureTile(): Tile = Tile(futureRect)
 
 }
 

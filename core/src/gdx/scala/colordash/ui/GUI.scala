@@ -44,7 +44,7 @@ object GUI extends GameInputHandler with LifeCycle {
     }
     largeJumpButton = new ToggleButton(0 * buttonSize, 0, buttonsRegions(0)(3), buttonsRegions(1)(3)) {
       def onToggleOn() = {
-        currentEffect = Effects.LargeJump
+        currentEffect = Effects.Blink
         smallJumpButton.toggleOff()
         dashButton.toggleOff()
         reverseGravityButton.toggleOff()

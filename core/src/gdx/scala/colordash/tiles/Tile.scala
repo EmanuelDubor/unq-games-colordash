@@ -4,9 +4,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.Pool
 import com.badlogic.gdx.utils.Pool.Poolable
+import gdx.scala.colordash.Constants
 import gdx.scala.colordash.effect.Effect
+import gdx.scala.colordash.tiledWorld.TiledWorld
 import gdx.scala.colordash.tiles.TileContent._
-import gdx.scala.colordash.{Constants, tiledWorld}
 
 class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
   val width: Float = Constants.tileWidth
@@ -28,6 +29,14 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
 
   def tileLeft = Tile(x - width.toInt, y)
 
+  def isUnder(otherTile: Tile) = y < otherTile.y
+
+  def isAbove(otherTile: Tile) = otherTile.y < y
+
+  def isRight(otherTile: Tile) = otherTile.x < x
+
+  def isLeft(otherTile: Tile) = x < otherTile.x
+
   def overlaps(r: Rectangle) =
     x < r.x + r.width &&
       x + width > r.x &&
@@ -45,9 +54,9 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
 
   def has(tileContent: TileContent): Boolean = content.equals(tileContent)
 
-  def effect_=(effect: Effect) = tiledWorld.TiledWorld.putEffect(this, effect)
+  def effect_=(effect: Effect) = TiledWorld.putEffect(this, effect)
 
-  def effect = tiledWorld.TiledWorld.getEffect(this)
+  def effect = TiledWorld.getEffect(this)
 }
 
 object Tile extends Pool[Tile] {
@@ -57,7 +66,7 @@ object Tile extends Pool[Tile] {
     val tile = obtain
     tile.x = x
     tile.y = y
-    tile.content = tiledWorld.TiledWorld.getCell(x, y).content
+    tile.content = TiledWorld.getCell(x, y).content
     tile
   }
 

@@ -39,9 +39,6 @@ object Constants {
   val maxStuck = 15f
   val maxSpike = 3f
 
-  val largeJumpX = 0f
-  val largeJumpY = 13f
-
   val smallJumpX = 1f
   val smallJumpY = 8f
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.{Color, Pixmap, Texture}
 import gdx.scala.colordash.Constants
 import gdx.scala.colordash.Constants._
 import gdx.scala.colordash.entities.Player
+import gdx.scala.colordash.tiles.Tile
 import gdx.scala.colordash.utils.LifeCycle
 
 trait Effect extends LifeCycle {
@@ -13,7 +14,7 @@ trait Effect extends LifeCycle {
   var pixmap: Pixmap = _
   var texture: Texture = _
 
-  def applyEffect(player: Player): Unit
+  def applyEffect(player: Player, triggeringTile: Tile): Unit
 
   def render(batch: Batch, x: Int, y: Int) = {
     batch.draw(texture, x, y, Constants.tileWidth, Constants.tileHeight)
@@ -34,20 +35,40 @@ trait Effect extends LifeCycle {
 
 object Effects extends LifeCycle {
 
-  val all = List(LargeJump, SmallJump, Dash, ReverseGravity, None)
+  val all = List(Blink, SmallJump, Dash, ReverseGravity, None)
 
-  object LargeJump extends Effect {
+  object Blink extends Effect {
     val color: Color = Color.RED
 
-    def applyEffect(player: Player): Unit = {
-      player.addVelocity(largeJumpX, largeJumpY)
+    def applyEffect(player: Player, triggeringTile: Tile): Unit = {
+      val playerTile = player.currentTile()
+      if (playerTile.isLeft(triggeringTile)) {
+        val targetTile = triggeringTile.tileRight
+        applyBlink(player, targetTile)
+        Tile.free(targetTile)
+      } else if (playerTile.isAbove(triggeringTile)) {
+        val targetTile = triggeringTile.tileDown
+        applyBlink(player, targetTile)
+        Tile.free(targetTile)
+      } else if (playerTile.isUnder(triggeringTile)) {
+        val targetTile = triggeringTile.tileUp
+        applyBlink(player, targetTile)
+        Tile.free(targetTile)
+      }
+      Tile.free(playerTile)
+    }
+
+    protected def applyBlink(player: Player, targetTile: Tile): Unit = {
+      if (!targetTile.isSolid) {
+        player.setPosition(targetTile)
+      }
     }
   }
 
   object SmallJump extends Effect {
     val color: Color = Color.MAGENTA
 
-    def applyEffect(player: Player): Unit = {
+    def applyEffect(player: Player, triggeringTile: Tile): Unit = {
       player.addVelocity(smallJumpX, smallJumpY)
     }
   }
@@ -55,7 +76,7 @@ object Effects extends LifeCycle {
   object Dash extends Effect {
     val color: Color = Color.CYAN
 
-    def applyEffect(player: Player): Unit = {
+    def applyEffect(player: Player, triggeringTile: Tile): Unit = {
       player.addVelocity(dashX, dashY)
     }
   }
@@ -63,7 +84,7 @@ object Effects extends LifeCycle {
   object ReverseGravity extends Effect {
     val color: Color = Color.YELLOW
 
-    def applyEffect(player: Player): Unit = {
+    def applyEffect(player: Player, triggeringTile: Tile): Unit = {
       player.physicsComponent = player.physicsComponent.reversedGravity()
     }
   }
@@ -71,7 +92,7 @@ object Effects extends LifeCycle {
   object None extends Effect {
     val color: Color = Color.WHITE
 
-    def applyEffect(player: Player): Unit = {}
+    def applyEffect(player: Player, triggeringTile: Tile): Unit = {}
   }
 
   override def create(): Unit = all.foreach(_.create())

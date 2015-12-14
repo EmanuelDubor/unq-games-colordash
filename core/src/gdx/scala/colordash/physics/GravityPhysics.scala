@@ -43,8 +43,8 @@ trait GravityPhysics {
   }
 
   protected def collideX(player: Player): Unit = {
-    val currentTile = Tile(player.rect)
-    val futureTile = Tile(player.futureRect)
+    val currentTile = player.currentTile()
+    val futureTile = player.futureTile()
 
     Tile.findTiles(
       currentTile.x,
@@ -65,8 +65,8 @@ trait GravityPhysics {
   }
 
   protected def collideY(player: Player): Unit = {
-    val currentTile = Tile(player.rect)
-    val futureTile = Tile(player.futureRect)
+    val currentTile = player.currentTile()
+    val futureTile = player.futureTile()
     val startY = Math.min(currentTile.y, futureTile.y) - Constants.tileHeight.toInt
     var endY = Math.max(currentTile.y, futureTile.y) + Constants.tileHeight.toInt
 
@@ -90,7 +90,7 @@ trait GravityPhysics {
   }
 
   def updateVelocity(player: Player)(implicit delta: Float): Unit = {
-    val futureTile = Tile(player.futureRect)
+    val futureTile = player.futureTile()
     val tileRight = futureTile.tileRight
     val tileUp = futureTile.tileUp
     val tileDown = futureTile.tileDown

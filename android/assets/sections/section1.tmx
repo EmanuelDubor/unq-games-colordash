@@ -29,11 +29,6 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="32" height="16">
-  <data encoding="base64" compression="zlib">
-   eJzjYWBg4CGAsQFy1BBjNq3tJwVQy/5RMApGwSgYBaSBgSh/6V3/kFNHUmI/OgYAkTAEIQ==
-  </data>
- </layer>
  <layer name="borderTop" width="32" height="16">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2DoAHYoJlZ8FFAXjIY/fQA7GsYnR4waUu2kNiDGnfQCA2HnYAUAYHoA7w==
@@ -61,7 +56,7 @@
  </layer>
  <layer name="level" width="32" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYCAMeLBgctTgMpuZgB6QOAsSxmU/ITXI7mTGogaX+7Gpw2YuLj654YLsVmTAzIBpJiE1o4A6AFtYMzBgT0+jgPpgNPzpAwai/BmI8pfY+ocJCeOyn5AaZLeQkl5pWf8CAAj2BHU=
+   eJzjYWBg4BlgzEyEGhYkTIkadDuRAT71xKgjxyxcAN2tyABbeBFSMwqoA7CFNQMD9vQ0CqgPRsOfPmAgyp+BKH+JrX+YkDAlakip8+iBAZImCJU=
   </data>
  </layer>
 </map>
