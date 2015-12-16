@@ -1,5 +1,6 @@
 package gdx.scala.colordash.physics
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
 import gdx.scala.colordash.Constants.PhysicsValues
@@ -57,7 +58,9 @@ trait GravityPhysics {
 
     val collidingTile = tiles.find(tile => tile.isSolid && tile.overlaps(player.futureRect))
     collidingTile match {
-      case Some(tile) => onCollideRight(player, tile)
+      case Some(tile) =>
+        Gdx.app.log("ColorDash", "On collision Right")
+        onCollideRight(player, tile)
       case None =>
     }
 
@@ -67,26 +70,28 @@ trait GravityPhysics {
   }
 
   protected def collideY(player: Player): Unit = {
-    val currentTile = player.currentTile()
+    val playerTile = player.currentTile()
     val futureTile = player.futureTile()
-    val startY = Math.min(currentTile.y, futureTile.y) - tileHeight.toInt
-    var endY = Math.max(currentTile.y, futureTile.y) + tileHeight.toInt
+    val startY = Math.min(playerTile.y, futureTile.y) - tileHeight.toInt
+    var endY = Math.max(playerTile.y, futureTile.y) + tileHeight.toInt
 
     Tile.findTiles(
-      currentTile.x,
+      playerTile.x,
       startY,
-      currentTile.x + tileWidth.toInt,
+      playerTile.x + tileWidth.toInt,
       endY
     )
 
     val collidingTile = tiles.find(tile => tile.isSolid && tile.overlaps(player.futureRect))
     collidingTile match {
-      case Some(tile) if 0 < player.velocity.y => onCollideUp(player, tile)
-      case Some(tile) if player.velocity.y < 0 => onCollideDown(player, tile)
+      case Some(tile) if playerTile.isUnder(tile) =>
+        Gdx.app.log("ColorDash", "On collision Up")
+        onCollideUp(player, tile)
+      case Some(tile) if playerTile.isAbove(tile) => onCollideDown(player, tile)
       case _ =>
     }
 
-    Tile.free(currentTile)
+    Tile.free(playerTile)
     Tile.free(futureTile)
     Tile.freeAll(tiles)
   }
@@ -98,10 +103,13 @@ trait GravityPhysics {
     val tileDown = futureTile.tileDown
 
     if (tileRight.isSolid && tileRight.touches(player.futureRect)) {
+      Gdx.app.log("ColorDash", "Setting speed to zero")
       onUpdateVelocityRight(player)
     } else if (player.baseVelocity < player.velocity.x) {
+      Gdx.app.log("ColorDash", "Changing speed to base")
       player.velocity.x += PhysicsValues.friction * delta
     } else {
+      Gdx.app.log("ColorDash", "Setting speed to base")
       player.velocity.x = player.baseVelocity
     }
 

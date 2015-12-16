@@ -37,10 +37,14 @@ class Tile(var x: Int = 0, var y: Int = 0) extends Poolable {
 
   def isLeft(otherTile: Tile) = x < otherTile.x
 
-  def overlaps(r: Rectangle) =
+  def overlaps(r: Rectangle) = overlapsX(r) && overlapsY(r)
+
+  def overlapsX(r: Rectangle) =
     x < r.x + r.width &&
-      x + width > r.x &&
-      y < r.y + r.height &&
+      x + width > r.x
+
+  def overlapsY(r: Rectangle) =
+    y < r.y + r.height &&
       y + height > r.y
 
   def touches(r: Rectangle) = {
